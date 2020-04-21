@@ -1,0 +1,30 @@
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=date],
+input[type=time] {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font: inherit;
+    letter-spacing: inherit;
+    background-color: var(--white);
+    color: var(--black);
+    border: 0;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
+    transition: background-color var(--duration);
+}
+
+textarea {
+    width: 100%;
+    display: block;
+    padding: 0.5rem 1rem;
+    font: inherit;
+    letter-spacing: inherit;
+    background-color: var(--white);
+    color: var(--black);
+    border: 0;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
+    transition: background-color var(--duration);
+}

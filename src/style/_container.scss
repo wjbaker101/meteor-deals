@@ -1,0 +1,36 @@
+.container-theme-1,
+.container-theme-2,
+.container-theme-3,
+.container-theme-4 {
+    padding: 1rem;
+    box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
+    border-radius: var(--border-radius);
+
+    :first-child {
+        margin-top: 0;
+    }
+
+    :last-child {
+        margin-bottom: 0;
+    }
+}
+
+.container-theme-1 {
+    background-color: var(--theme-1);
+    color: var(--black);
+}
+
+.container-theme-2 {
+    background-color: var(--theme-2);
+    color: var(--black);
+}
+
+.container-theme-3 {
+    background-color: var(--theme-3);
+    color: var(--white);
+}
+
+.container-theme-4 {
+    background-color: var(--theme-4);
+    color: var(--white);
+}

@@ -1,0 +1,19 @@
+button {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font: inherit;
+    font-weight: bold;
+    letter-spacing: inherit;
+    background-color: var(--theme-3);
+    color: var(--white);
+    border: 0;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
+    cursor: pointer;
+    transition: background-color var(--duration);
+
+    &:hover {
+        background-color: var(--theme-4);
+        box-shadow: 0 0 8px rgba(34, 34, 34, 0.9) inset;
+    }
+}
