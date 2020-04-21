@@ -2,19 +2,22 @@
     <div class="deals-view flex">
         <div>
             <h2>Newest Deals</h2>
-            <p v-if="newestDeals.length === 0">
-                No deals to show yet, make sure to check back later!
-            </p>
-            <div class="deals-container grid">
-                <DealComponent
-                    :key="deal.id"
-                    v-for="deal in newestDeals"
-                    :deal="deal" />
+            <LoadingComponent v-if="isDealsLoading" message="Loading deals..." />
+            <div v-else>
+                <p v-if="newestDeals.length === 0">
+                    No deals to show yet, make sure to check back later!
+                </p>
+                <div class="deals-container grid">
+                    <DealComponent
+                        :key="deal.id"
+                        v-for="deal in newestDeals"
+                        :deal="deal" />
+                </div>
             </div>
         </div>
         <div>
             <h2>Expired Deals</h2>
-            <p v-if="expiredDeals.length === 0">
+            <p v-if="!isDealsLoading && expiredDeals.length === 0">
                 No deals have expired yet!
             </p>
             <div class="deals-container grid">
@@ -37,13 +40,17 @@
     import { EventService, Event } from '@/service/EventService';
 
     import DealComponent from '@/component/DealComponent.vue';
+    import LoadingComponent from '@/component/LoadingComponent.vue';
 
     @Component({
         components: {
             DealComponent,
+            LoadingComponent,
         },
     })
     export default class DealsView extends Vue {
+
+        private isDealsLoading: boolean = true;
 
         get searchText(): string {
             return this.$store.state.searchText;
@@ -54,7 +61,13 @@
         }
 
         get deals(): Deal[] {
-            return this.$store.state.deals;
+            const deals = this.$store.state.deals;
+
+            if (deals.length > 0) {
+                this.isDealsLoading = false;
+            }
+
+            return deals;
         }
 
         get filteredDeals(): Deal[] {
