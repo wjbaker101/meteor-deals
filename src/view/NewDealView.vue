@@ -137,8 +137,8 @@
             }
 
             if (this.categories.find(c => (
-                c.name.toLowerCase() === this.category.toLowerCase()))
-            ) {
+                c.name.toLowerCase() === this.category.toLowerCase()
+            ))) {
                 return;
             }
 

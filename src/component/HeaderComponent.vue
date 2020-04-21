@@ -64,6 +64,12 @@
                 return;
             }
 
+            if (this.categories.find(c => (
+                c.name.toLowerCase() === this.category.toLowerCase()
+            ))) {
+                return;
+            }
+
             this.$store.dispatch('addCategory', {
                 name: this.category,
                 isEnabled: true,
