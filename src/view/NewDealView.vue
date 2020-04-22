@@ -231,6 +231,7 @@
         .new-deal-container {
             width: 450px;
             max-width: 100%;
+            padding: 2rem 1rem;
             display: table;
             margin: auto;
 

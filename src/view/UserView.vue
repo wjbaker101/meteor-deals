@@ -47,6 +47,7 @@
         .user-container {
             width: 520px;
             max-width: 100%;
+            padding: 2rem 1rem;
         }
     }
 </style>
