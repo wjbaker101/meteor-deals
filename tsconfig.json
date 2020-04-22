@@ -6,6 +6,7 @@
         "jsx": "preserve",
         "importHelpers": true,
         "moduleResolution": "node",
+        "resolveJsonModule": true,
         "experimentalDecorators": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
@@ -30,7 +31,7 @@
         "src/**/*.tsx",
         "src/**/*.vue",
         "tests/**/*.ts",
-        "tests/**/*.tsx", "common/interface/Deal.ts"
+        "tests/**/*.tsx"
     ],
     "exclude": [
         "node_modules"

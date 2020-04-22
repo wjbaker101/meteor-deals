@@ -30,7 +30,7 @@
 
     import { DateFormatter } from '@/util/DateFormatter';
 
-    import { Category } from '@/model/Category';
+    import { Category } from '@common/model/Category';
     import { Deal } from '@common/model/Deal';
 
     import CategoryComponent from '@/component/CategoryComponent.vue';

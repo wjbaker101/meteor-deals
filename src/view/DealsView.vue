@@ -35,7 +35,7 @@
     import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
     import { Deal } from '@common/model/Deal';
-    import { Category } from '@/model/Category';
+    import { Category } from '@common/model/Category';
 
     import { EventService, Event } from '@/service/EventService';
 

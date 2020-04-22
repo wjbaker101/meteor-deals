@@ -1,46 +1,49 @@
 import express, { Request, Response, NextFunction } from 'express';
-import admin from 'firebase-admin';
+
+import { UserService } from '../service/UserService';
+import { Auth } from '../auth/Auth';
+import { LogUtils } from '../util/LogUtils';
 
 const userRouter = express.Router();
 
-export const requiresAuth =
-        async (request: Request, response: Response, next: NextFunction) => {
+const createUser = async (request: Request, response: Response) => {
+    const { emailAddress, password } = request.body;
 
-    const { authHeader } = request.headers;
+    const user = await UserService.createUser(emailAddress, password);
 
-    if (!authHeader) {
-        return response.status(401).send();
+    if (user instanceof Error) {
+        LogUtils.log(user.message);
+
+        response.status(500).send({
+            error: 'Something went wrong when creating the user.',
+        });
+
+        return;
     }
 
-    if (!(authHeader instanceof String)) {
-        return response.status(401).send();
+    response.status(201).send(user);
+};
+
+const login = async (request: Request, response: Response) => {
+    const uid = response.locals.uid;
+
+    const user = await UserService.getUser(uid);
+
+    if (user instanceof Error) {
+        LogUtils.log(user.message);
+
+        response.status(500).send({
+            error: 'Something went wrong when logging in.',
+        });
+
+        return;
     }
 
-    if (!authHeader.startsWith('Bearer')) {
-        return response.status(401).send();
-    }
+    response.send(user);
+};
 
-    const split = authHeader.split('Bearer ');
+userRouter.post('/user', createUser);
 
-    if (split.length !== 2) {
-        return response.status(401).send();
-    }
-
-    const token = split[1];
-
-    try {
-        const decodedToken = await admin.auth().verifyIdToken(token);
-
-        request.params = {
-            ...request.params,
-            uid: decodedToken.uid,
-        };
-
-        return next();
-    }
-    catch (exception) {
-        return response.status(401).send();
-    }
-}
+userRouter.get('/user/login', Auth.isAuthenticated, login);
 
 export const UserRouter = userRouter;

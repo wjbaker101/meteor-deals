@@ -6,11 +6,11 @@
     box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
     border-radius: var(--border-radius);
 
-    :first-child {
+    & > :first-child {
         margin-top: 0;
     }
 
-    :last-child {
+    & > :last-child {
         margin-bottom: 0;
     }
 }

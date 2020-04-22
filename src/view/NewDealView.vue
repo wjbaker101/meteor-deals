@@ -80,7 +80,7 @@
     import { API } from '@/api/API';
     import { DateFormatter } from '@/util/DateFormatter';
 
-    import { Category } from '@/model/Category';
+    import { Category } from '@common/model/Category';
 
     import DealComponent from '@/component/DealComponent.vue';
     import CategoryComponent from '@/component/CategoryComponent.vue';

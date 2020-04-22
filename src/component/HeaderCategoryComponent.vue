@@ -15,7 +15,7 @@
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
 
-    import { Category } from '@/model/Category';
+    import { Category } from '@common/model/Category';
 
     import CategoryComponent from '@/component/CategoryComponent.vue';
 
