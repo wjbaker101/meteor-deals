@@ -48,10 +48,9 @@
     import { FirebaseClient } from '@/api/FirebaseClient';
 
     @Component({
-        components: {
-        },
+        components: {},
     })
-    export default class LoginView extends Vue {
+    export default class UserCreateView extends Vue {
 
         private emailAddress: string = '';
         private password: string = '';
