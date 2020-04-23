@@ -3,8 +3,6 @@ import admin, { ServiceAccount } from 'firebase-admin';
 import firebaseCredentials from '../../common/config/firebase-credentials.json';
 import secretConfig from '../../common/config/secret-config.json';
 
-import { User } from '../../common/model/User';
-
 const app = admin.initializeApp({
     credential: admin.credential.cert(firebaseCredentials as ServiceAccount),
     ...secretConfig.firebase,
@@ -23,7 +21,7 @@ export const FirebaseClient = {
         return data.docs;
     },
 
-    async addToCollection(collection: string, value: any): Promise<string> {
+    async addToCollection(collection: string, value: Object): Promise<string> {
         const insert = await firestore.collection(collection).add(value);
 
         return insert.id;
