@@ -15,7 +15,7 @@ const router = new VueRouter({
             component: DealsView,
         },
         {
-            path: '/new-deal',
+            path: '/deal/create',
             component: () => import('@/view/NewDealView.vue'),
         },
         {
