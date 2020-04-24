@@ -28,6 +28,7 @@
     @import './style/layout';
     @import './style/button';
     @import './style/input';
+    @import './style/icon';
 
     #app {
         grid-template-columns: var(--nav-width) 1fr;

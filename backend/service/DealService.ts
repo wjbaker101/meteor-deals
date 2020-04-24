@@ -30,5 +30,16 @@ export const DealService = {
         catch (exception) {
             return new Error(exception);
         }
-    }
+    },
+
+    async deleteDeal(id: string): Promise<boolean | Error> {
+        try {
+            await FirebaseClient.deleteDoc('deals', id);
+
+            return true;
+        }
+        catch (exception) {
+            return new Error(exception);
+        }
+    },
 }

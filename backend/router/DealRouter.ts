@@ -35,11 +35,33 @@ const addDeal = async (request: Request, response: Response) => {
     response.status(201).send(newDeal);
 };
 
+
+const deleteDeal = async (request: Request, response: Response) => {
+    const { id } = request.params;
+
+    const deletion = await DealService.deleteDeal(id);
+
+    if (deletion instanceof Error) {
+        response.status(500).send({
+            error: 'Something went wrong when deleting the deal.',
+        });
+
+        return;
+    }
+
+    response.send();
+};
+
 dealRouter.get('/deals', getDeals);
 
 dealRouter.post('/deal',
         Auth.requiresAuthorisation,
         Auth.requiresAdmin,
         addDeal);
+
+dealRouter.delete('/deal/:id',
+        Auth.requiresAuthorisation,
+        Auth.requiresAdmin,
+        deleteDeal);
 
 export const DealRouter = dealRouter;

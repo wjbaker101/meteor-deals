@@ -43,6 +43,10 @@ export const FirebaseClient = {
         return result.data();
     },
 
+    async deleteDoc(collection: string, doc: string): Promise<void> {
+        await firestore.collection(collection).doc(doc).delete();
+    },
+
     async createUser(emailAddress: string, password: string): Promise<string> {
         const user = await auth.createUser({
             email: emailAddress,

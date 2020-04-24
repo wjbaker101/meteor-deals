@@ -22,6 +22,10 @@
                 <button>Go to Deal</button>
             </a>
         </p>
+        <div class="admin-container container-theme-2 flex" v-if="isAdminUser">
+            <div class="filler"></div>
+            <BinIcon class="delete" @click="onDelete" />
+        </div>
     </div>
 </template>
 
@@ -32,12 +36,16 @@
 
     import { Category } from '@common/model/Category';
     import { Deal } from '@common/model/Deal';
+    import { User } from '@common/model/User';
 
     import CategoryComponent from '@/component/CategoryComponent.vue';
+
+    import BinIcon from '@/assets/icon/bin.svg';
 
     @Component({
         components: {
             CategoryComponent,
+            BinIcon,
         },
     })
     export default class DealComponent extends Vue {
@@ -51,6 +59,14 @@
             default: false,
         })
         private readonly isExpired!: boolean;
+
+        get user(): User | null {
+            return this.$store.state.user;
+        }
+
+        get isAdminUser(): boolean {
+            return this.user !== null && this.user.isAdmin;
+        }
 
         get categories(): Category[] {
             return this.deal.categories
@@ -86,6 +102,10 @@
 
             return 0;
         }
+
+        onDelete(): void {
+            this.$emit('delete', this.deal.id);
+        }
     }
 </script>
 
@@ -110,6 +130,23 @@
 
         .description {
             flex: 1;
+        }
+
+        .admin-container {
+            padding: var(--spacing-xsmall) var(--spacing-small);
+
+            .filler {
+                flex: 1;
+            }
+
+            & > * {
+                flex: 0 0 auto;
+            }
+
+            .delete {
+                color: #c11;
+                cursor: pointer;
+            }
         }
     }
 </style>

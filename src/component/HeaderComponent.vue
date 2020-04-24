@@ -30,7 +30,9 @@
         <div class="filler"></div>
         <div class="user-container">
             <div v-if="user !== null">
-                <router-link to="/user">{{ user.emailAddress }}</router-link>
+                <router-link to="/user">
+                    <UserIcon />{{ user.emailAddress }}
+                </router-link>
             </div>
             <div v-else>
                 <router-link to="/login">
@@ -55,9 +57,12 @@
 
     import HeaderCategoryComponent from '@/component/HeaderCategoryComponent.vue';
 
+    import UserIcon from '@/assets/icon/user.svg';
+
     @Component({
         components: {
             HeaderCategoryComponent,
+            UserIcon,
         },
     })
     export default class HeaderComponent extends Vue {
@@ -160,6 +165,10 @@
             a {
                 font-weight: bold;
                 color: inherit;
+            }
+
+            .icon-user {
+                margin-right: var(--spacing-xsmall);
             }
         }
     }

@@ -11,7 +11,8 @@
                     <DealComponent
                         :key="deal.id"
                         v-for="deal in newestDeals"
-                        :deal="deal" />
+                        :deal="deal"
+                        @delete="onShowModal" />
                 </div>
             </div>
         </div>
@@ -25,9 +26,21 @@
                     :key="deal.id"
                     v-for="deal in expiredDeals"
                     :deal="deal"
-                    :isExpired="true" />
+                    :isExpired="true"
+                    @delete="onShowModal" />
             </div>
         </div>
+        <ModalComponent :id="modalDeleteID">
+            <h2>Delete this deal?</h2>
+            <p>Are you sure you want to delete this deal?</p>
+            <p>The deal will not be recoverable afterwards.</p>
+            <p>
+                <ButtonComponent @click="onDeleteDeal">Delete</ButtonComponent>
+            </p>
+            <p>
+                <ButtonComponent @click="onCancelModal">Cancel</ButtonComponent>
+            </p>
+        </ModalComponent>
     </div>
 </template>
 
@@ -39,18 +52,28 @@
 
     import { EventService, Event } from '@/service/EventService';
 
+    import ButtonComponent from '@/component/ButtonComponent.vue';
     import DealComponent from '@/component/DealComponent.vue';
     import LoadingComponent from '@/component/LoadingComponent.vue';
+    import ModalComponent from '@/component/ModalComponent.vue';
+import { API } from '../api/API';
 
     @Component({
         components: {
+            ButtonComponent,
             DealComponent,
             LoadingComponent,
+            ModalComponent,
         },
     })
     export default class DealsView extends Vue {
 
+        private readonly modalDeleteID: string = 'modal_delete_id';
+
         private isDealsLoading: boolean = true;
+
+        private dealIDToDelete: string | null = null;
+        private doShowDeleteModal: boolean = false;
 
         get searchText(): string {
             return this.$store.state.searchText;
@@ -149,6 +172,41 @@
 
                 return 0;
             }
+        }
+
+        onShowModal(dealID: string): void {
+            this.dealIDToDelete = dealID;
+
+            EventService.$emit(Event.MODAL_SHOW, this.modalDeleteID);
+        }
+
+        onCancelModal(): void {
+            EventService.$emit(Event.MODAL_HIDE, this.modalDeleteID);
+        }
+
+        async onDeleteDeal(): Promise<void> {
+            if (this.dealIDToDelete === null) {
+                EventService.$emit(Event.MODAL_HIDE, this.modalDeleteID);
+                return;
+            }
+
+            try {
+                await API.deleteDeal(this.dealIDToDelete);
+            }
+            catch (exception) {
+                return;
+            }
+
+            const deals: Deal[] = this.$store.state.deals;
+
+            const deleteIndex = deals.findIndex(d => (
+                d.id === this.dealIDToDelete
+            ));
+
+            deals.splice(deleteIndex, 1);
+
+            this.dealIDToDelete = null;
+            EventService.$emit(Event.MODAL_HIDE, this.modalDeleteID);
         }
     }
 </script>

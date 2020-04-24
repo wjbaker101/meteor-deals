@@ -45,6 +45,28 @@ export const API = {
         }
     },
 
+    async deleteDeal(id: string): Promise<boolean | Error> {
+        try {
+            const userToken = await FirebaseClient.getUserToken();
+
+            if (userToken === null) {
+                return new Error('User is not logged in.');
+            }
+
+            await api.delete<Deal>(`/deal/${id}`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                        },
+                    });
+
+            return true;
+        }
+        catch (exception) {
+            return new Error(exception);
+        }
+    },
+
     async createUser(
             emailAddress: string,
             password: string): Promise<User | Error> {
