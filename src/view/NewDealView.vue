@@ -68,7 +68,9 @@
             </div>
             <div>Make sure all fields have been completed.</div>
             <div>
-                <button @click="onSubmit">Submit</button>
+                <ButtonComponent @click="onSubmit" :isLoading="isLoading">
+                    Submit
+                </ButtonComponent>
             </div>
         </div>
     </div>
@@ -82,11 +84,13 @@
 
     import { Category } from '@common/model/Category';
 
+    import ButtonComponent from '@/component/ButtonComponent.vue';
     import DealComponent from '@/component/DealComponent.vue';
     import CategoryComponent from '@/component/CategoryComponent.vue';
 
     @Component({
         components: {
+            ButtonComponent,
             DealComponent,
             CategoryComponent,
         },
@@ -106,6 +110,8 @@
 
         private readonly nowDate: string = DateFormatter.getDateAsInputValue();
         private readonly nowTime: string = DateFormatter.getTimeAsInputValue();
+
+        private isLoading: boolean = false;
 
         get startDate(): Date {
             const [ year, month, date ] = this.startDateInput.split('-');
@@ -159,6 +165,8 @@
                 return;
             }
 
+            this.isLoading = true;
+
             const newDeal = await API.addDeal({
                 id: '',
                 title: this.title,
@@ -168,6 +176,8 @@
                 categories: this.categories.map(c => c.name),
                 url: this.url,
             });
+
+            this.isLoading = false;
 
             if (newDeal instanceof Error) {
                 return;

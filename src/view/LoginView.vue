@@ -23,7 +23,10 @@
                 >
             </label>
             <p></p>
-            <button @click="onLoginClicked">Log In</button>
+            <ButtonComponent @click="onLoginClicked" :isLoading="isLoading">
+                Log In
+            </ButtonComponent>
+            {{isLoading}}
             <p v-if="errorMessage">
                 {{ errorMessage }}
             </p>
@@ -38,13 +41,17 @@
     import { API } from '@/api/API';
     import { FirebaseClient } from '@/api/FirebaseClient';
 
+    import ButtonComponent from '@/component/ButtonComponent.vue';
+
     Component.registerHooks([
         'beforeRouteEnter',
         'beforeRouteUpdate',
     ]);
 
     @Component({
-        components: {},
+        components: {
+            ButtonComponent,
+        },
     })
     export default class LoginView extends Vue {
 
@@ -52,6 +59,8 @@
         private password: string = '';
 
         private errorMessage: string = '';
+
+        private isLoading: boolean = false;
 
         get emailAddressInput(): HTMLInputElement {
             return this.$refs.emailAddressInput as HTMLInputElement;
@@ -66,9 +75,13 @@
                 return;
             }
 
+            this.isLoading = true;
+
             const user = await FirebaseClient.login(
                     this.emailAddress,
                     this.password);
+
+            this.isLoading = false;
 
             if (user instanceof Error) {
                 return;
