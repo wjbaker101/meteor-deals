@@ -25,7 +25,18 @@ export const API = {
 
     async addDeal(deal: Deal): Promise<Deal | Error> {
         try {
-            const result = await api.post<Deal>('/deal', deal);
+            const userToken = await FirebaseClient.getUserToken();
+
+            if (userToken === null) {
+                return new Error('User is not logged in.');
+            }
+
+            const result = await api.post<Deal>('/deal', deal,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                        },
+                    });
 
             return DealConverter.fromAPI(result.data);
         }
@@ -56,7 +67,7 @@ export const API = {
         try {
             const userToken = await FirebaseClient.getUserToken();
 
-            if (!userToken) {
+            if (userToken === null) {
                 return new Error('User is not logged in.');
             }
 

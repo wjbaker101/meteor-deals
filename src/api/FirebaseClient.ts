@@ -40,23 +40,13 @@ export const FirebaseClient = {
         }
     },
 
-    getCurrentUser(): User | null {
-        if (auth.currentUser === null) {
+    async getUserToken(): Promise<string | null> {
+        const user = auth.currentUser;
+
+        if (!user) {
             return null;
         }
 
-        if (auth.currentUser.email === null) {
-            return null;
-        }
-
-        return {
-            id: auth.currentUser.uid,
-            emailAddress: auth.currentUser.email,
-            categories: [],
-        }
-    },
-
-    async getUserToken(): Promise<string | undefined > {
-        return await auth.currentUser?.getIdToken();
+        return await user.getIdToken();
     },
 }

@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 
+import { Auth } from '../auth/Auth';
 import { DealMapper } from '../mapper/DealMapper';
 import { DealService } from '../service/DealService';
 
@@ -36,6 +37,9 @@ const addDeal = async (request: Request, response: Response) => {
 
 dealRouter.get('/deals', getDeals);
 
-dealRouter.post('/deal', addDeal);
+dealRouter.post('/deal',
+        Auth.requiresAuthorisation,
+        Auth.requiresAdmin,
+        addDeal);
 
 export const DealRouter = dealRouter;

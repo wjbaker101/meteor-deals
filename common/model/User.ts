@@ -4,4 +4,5 @@ export interface User {
     id: string,
     emailAddress: string,
     categories: Category[],
+    isAdmin: boolean,
 }

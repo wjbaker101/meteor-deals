@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import admin from 'firebase-admin';
 
+import { UserService } from '../service/UserService';
+
 export const Auth = {
 
-    async isAuthenticated(
-        request: Request,
-        response: Response,
-        next: NextFunction): Promise<Response | void> {
+    async requiresAuthorisation(
+            request: Request,
+            response: Response,
+            next: NextFunction): Promise<Response | void> {
 
         const { authorization } = request.headers;
 
@@ -32,6 +34,38 @@ export const Auth = {
             response.locals = {
                 ...response.locals,
                 uid: decodedToken.uid,
+            };
+
+            return next();
+        }
+        catch (exception) {
+            return response.status(401).send();
+        }
+    },
+
+    async requiresAdmin(
+            request: Request,
+            response: Response,
+            next: NextFunction): Promise<Response | void> {
+
+        if (!response.locals.uid) {
+            return response.status(401).send();
+        }
+
+        try {
+            const user = await UserService.getUser(response.locals.uid);
+
+            if (user instanceof Error) {
+                return response.status(500).send();
+            }
+
+            if (!user.isAdmin) {
+                return response.status(401).send();
+            }
+
+            response.locals.user = {
+                ...response.locals,
+                user,
             };
 
             return next();

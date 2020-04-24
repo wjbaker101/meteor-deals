@@ -14,6 +14,7 @@ export const UserService = {
             const userData = await FirebaseClient.setDoc('users', id, {
                 emailAddress,
                 categories: [],
+                isAdmin: false,
             });
 
             if (userData) {
@@ -21,6 +22,7 @@ export const UserService = {
                     id,
                     emailAddress,
                     categories: [],
+                    isAdmin: false,
                 }
             }
         }
@@ -37,6 +39,7 @@ export const UserService = {
                 id,
                 emailAddress: userData.emailAddress,
                 categories: userData.categories,
+                isAdmin: userData.isAdmin,
             }
         }
         catch (exception) {

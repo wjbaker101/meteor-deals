@@ -44,6 +44,6 @@ const login = async (request: Request, response: Response) => {
 
 userRouter.post('/user', createUser);
 
-userRouter.get('/user/login', Auth.isAuthenticated, login);
+userRouter.get('/user/login', Auth.requiresAuthorisation, login);
 
 export const UserRouter = userRouter;
