@@ -1,7 +1,7 @@
 <template>
     <div class="deals-view flex">
         <div>
-            <h2>Newest Deals</h2>
+            <h2>Newest Deals ({{ newestDeals.length }})</h2>
             <LoadingComponent v-if="isDealsLoading" message="Loading deals..." />
             <div v-else>
                 <p v-if="newestDeals.length === 0">
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div>
-            <h2>Expired Deals</h2>
+            <h2>Expired Deals ({{ expiredDeals.length }})</h2>
             <p v-if="!isDealsLoading && expiredDeals.length === 0">
                 No deals have expired yet!
             </p>
