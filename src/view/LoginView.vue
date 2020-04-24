@@ -26,7 +26,6 @@
             <ButtonComponent @click="onLoginClicked" :isLoading="isLoading">
                 Log In
             </ButtonComponent>
-            {{isLoading}}
             <p v-if="errorMessage">
                 {{ errorMessage }}
             </p>
