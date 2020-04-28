@@ -4,6 +4,10 @@
         class="deal-component container-theme-2 flex"
         :class="{ 'is-expired': isExpired }"
     >
+        <div class="admin-container container-theme-2 flex" v-if="isAdminUser">
+            <div class="filler"></div>
+            <BinIcon class="delete" @click="onDelete" />
+        </div>
         <h3>{{ deal.title }}</h3>
         <div>
             <small><strong>{{ daysRemainingText }}</strong></small>
@@ -28,10 +32,6 @@
                     <HeartIcon />
                 </button>
             </div>
-        </div>
-        <div class="admin-container container-theme-2 flex" v-if="isAdminUser">
-            <div class="filler"></div>
-            <BinIcon class="delete" @click="onDelete" />
         </div>
     </div>
 </template>
@@ -169,14 +169,14 @@
         }
 
         .actions-container {
-            margin: 1rem 0;
+            margin-top: 1rem;
 
             .url {
                 flex: 1;
-                padding-right: 0.5rem;
             }
 
             .favourite {
+                padding-left: 0.5rem;
                 flex: 0 0 auto;
 
                 &.is-favourite .icon-heart {
