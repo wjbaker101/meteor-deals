@@ -30,8 +30,6 @@ const login = async (request: Request, response: Response) => {
     const user = await UserService.getUser(uid);
 
     if (user instanceof Error) {
-        LogUtils.log(user.message);
-
         response.status(500).send({
             error: 'Something went wrong when logging in.',
         });
@@ -42,8 +40,50 @@ const login = async (request: Request, response: Response) => {
     response.send(user);
 };
 
+const favouriteDeal = async (request: Request, response: Response) => {
+    const { id } = request.params;
+    const { uid: userID } = response.locals;
+
+    const favourites = await UserService.favouriteDeal(userID, id);
+
+    if (favourites instanceof Error) {
+        response.status(500).send({
+            error: `Something went wrong when favouriting deal (id=${id}).`,
+        });
+
+        return;
+    }
+
+    response.send(favourites);
+};
+
+const removeFavouriteDeal = async (request: Request, response: Response) => {
+    const { id } = request.params;
+    const { uid: userID } = response.locals;
+
+    const favourites = await UserService.removeFavouriteDeal(userID, id);
+
+    if (favourites instanceof Error) {
+        response.status(500).send({
+            error: `Something went wrong when removing favourite deal (id=${id}).`,
+        });
+
+        return;
+    }
+
+    response.send(favourites);
+};
+
 userRouter.post('/user', createUser);
 
 userRouter.get('/user/login', Auth.requiresAuthorisation, login);
+
+userRouter.post('/user/favourite/:id',
+        Auth.requiresAuthorisation,
+        favouriteDeal);
+
+userRouter.delete('/user/favourite/:id',
+        Auth.requiresAuthorisation,
+        removeFavouriteDeal);
 
 export const UserRouter = userRouter;

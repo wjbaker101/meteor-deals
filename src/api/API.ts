@@ -53,7 +53,7 @@ export const API = {
                 return new Error('User is not logged in.');
             }
 
-            await api.delete<Deal>(`/deal/${id}`,
+            await api.delete(`/deal/${id}`,
                     {
                         headers: {
                             'Authorization': `Bearer ${userToken}`,
@@ -94,6 +94,50 @@ export const API = {
             }
 
             const result = await api.get<User>('/user/login',
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                        },
+                    });
+
+            return result.data;
+        }
+        catch (exception) {
+            return new Error(exception);
+        }
+    },
+
+    async favouriteDeal(id: string): Promise<string[] | Error> {
+        try {
+            const userToken = await FirebaseClient.getUserToken();
+
+            if (userToken === null) {
+                return new Error('User is not logged in.');
+            }
+
+            const result = await api.post<string[]>(`/user/favourite/${id}`, {},
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                        },
+                    });
+
+            return result.data;
+        }
+        catch (exception) {
+            return new Error(exception);
+        }
+    },
+
+    async removeFavouriteDeal(id: string): Promise<string[] | Error> {
+        try {
+            const userToken = await FirebaseClient.getUserToken();
+
+            if (userToken === null) {
+                return new Error('User is not logged in.');
+            }
+
+            const result = await api.delete<string[]>(`/user/favourite/${id}`,
                     {
                         headers: {
                             'Authorization': `Bearer ${userToken}`,

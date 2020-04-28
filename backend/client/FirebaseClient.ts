@@ -37,6 +37,14 @@ export const FirebaseClient = {
         return true;
     },
 
+    async updateDoc(
+            collection: string,
+            doc: string,
+            value: Object): Promise<void> {
+
+        await firestore.collection(collection).doc(doc).update(value);
+    },
+
     async getDoc(collection: string, doc: string): Promise<any> {
         const result = await firestore.collection(collection).doc(doc).get();
 

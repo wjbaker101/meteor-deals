@@ -17,11 +17,18 @@
                 v-for="category in categories"
                 :category="category" />
         </div>
-        <p>
-            <a :href="deal.url" rel="nofollow noreferrer noopener" target="_blank">
-                <button>Go to Deal</button>
-            </a>
-        </p>
+        <div class="actions-container flex">
+            <div class="url">
+                <a :href="deal.url" rel="nofollow noreferrer noopener" target="_blank">
+                    <button>Go to Deal</button>
+                </a>
+            </div>
+            <div class="favourite" :class="{ 'is-favourite': isFavourite }" v-if="user !== null">
+                <button @click="onFavourite">
+                    <HeartIcon />
+                </button>
+            </div>
+        </div>
         <div class="admin-container container-theme-2 flex" v-if="isAdminUser">
             <div class="filler"></div>
             <BinIcon class="delete" @click="onDelete" />
@@ -32,6 +39,7 @@
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
 
+    import { API } from '@/api/API';
     import { DateFormatter } from '@/util/DateFormatter';
 
     import { Category } from '@common/model/Category';
@@ -41,11 +49,13 @@
     import CategoryComponent from '@/component/CategoryComponent.vue';
 
     import BinIcon from '@/assets/icon/bin.svg';
+    import HeartIcon from '@/assets/icon/heart.svg';
 
     @Component({
         components: {
             CategoryComponent,
             BinIcon,
+            HeartIcon,
         },
     })
     export default class DealComponent extends Vue {
@@ -66,6 +76,14 @@
 
         get isAdminUser(): boolean {
             return this.user !== null && this.user.isAdmin;
+        }
+
+        get isFavourite(): boolean {
+            if (this.user === null) {
+                return false;
+            }
+
+            return this.user.favourites.includes(this.deal.id);
         }
 
         get categories(): Category[] {
@@ -106,6 +124,24 @@
         onDelete(): void {
             this.$emit('delete', this.deal.id);
         }
+
+        async onFavourite(): Promise<void> {
+            if (this.user === null) {
+                return;
+            }
+
+            const result = this.user.favourites.includes(this.deal.id)
+                ? await API.removeFavouriteDeal(this.deal.id)
+                : await API.favouriteDeal(this.deal.id);
+
+            if (result instanceof Error) {
+                return;
+            }
+
+            this.user.favourites = result;
+
+            this.$store.dispatch('setUser', this.user);
+        }
     }
 </script>
 
@@ -130,6 +166,23 @@
 
         .description {
             flex: 1;
+        }
+
+        .actions-container {
+            margin: 1rem 0;
+
+            .url {
+                flex: 1;
+                padding-right: 0.5rem;
+            }
+
+            .favourite {
+                flex: 0 0 auto;
+
+                &.is-favourite .icon-heart {
+                    color: #f11;
+                }
+            }
         }
 
         .admin-container {
