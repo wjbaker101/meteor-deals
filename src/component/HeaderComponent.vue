@@ -125,6 +125,11 @@
         &.container-theme-4 {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
+
+            @media only screen and (max-width: 50rem) {
+                border-top-right-radius: 0;
+                border-bottom-left-radius: var(--border-radius);
+            }
         }
 
         & > * {

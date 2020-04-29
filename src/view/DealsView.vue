@@ -218,6 +218,14 @@ import { API } from '../api/API';
         .deals-container {
             grid-template-columns: repeat(4, 1fr);
             padding-bottom: var(--spacing-small);
+
+            @media only screen and (max-width: 70rem) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            @media only screen and (max-width: 50rem) {
+                grid-template-columns: repeat(1, 1fr);
+            }
         }
     }
 </style>

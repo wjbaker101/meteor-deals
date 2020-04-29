@@ -32,11 +32,19 @@
 
     #app {
         grid-template-columns: var(--nav-width) 1fr;
+
+        @media only screen and (max-width: 50rem) {
+            flex-direction: column;
+        }
     }
 
     .router-view {
         flex: 1;
         overflow-y: auto;
         padding: var(--spacing-small);
+
+        @media only screen and (max-width: 50rem) {
+            overflow-y: initial;
+        }
     }
 </style>
