@@ -21,7 +21,7 @@ app.use('/api', UserRouter);
 
 app.use(history());
 
-app.use(express.static(path.join(__dirname, '../../dist/frontend')));
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.listen(config.backend.port, () => {
     LogUtils.log(`Started backend on port ${config.backend.port}`);
