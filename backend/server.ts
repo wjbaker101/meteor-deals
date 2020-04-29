@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import history from 'connect-history-api-fallback';
@@ -20,7 +21,7 @@ app.use('/api', UserRouter);
 
 app.use(history());
 
-app.use(express.static('./dist/frontend'));
+app.use(express.static(path.join(__dirname, '../../dist/frontend')));
 
 app.listen(config.backend.port, () => {
     LogUtils.log(`Started backend on port ${config.backend.port}`);
