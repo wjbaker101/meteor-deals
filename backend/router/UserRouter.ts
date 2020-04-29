@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import { UserService } from '../service/UserService';
 import { Auth } from '../auth/Auth';
 import { LogUtils } from '../util/LogUtils';
+import { EmailService } from '../service/EmailService';
 
 const userRouter = express.Router();
 
