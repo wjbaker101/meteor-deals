@@ -2,7 +2,10 @@
     <div class="header-component container-theme-4 flex">
         <div>
             <h1>
-                <router-link to="/">Meteor Deals</router-link>
+                <router-link to="/">
+                    <Logo />
+                    <span>Meteor Deals</span>
+                </router-link>
             </h1>
         </div>
         <div class="container-theme-3">
@@ -57,11 +60,13 @@
 
     import HeaderCategoryComponent from '@/component/HeaderCategoryComponent.vue';
 
+    import Logo from '@/assets/logo.svg';
     import UserIcon from '@/assets/icon/user.svg';
 
     @Component({
         components: {
             HeaderCategoryComponent,
+            Logo,
             UserIcon,
         },
     })
@@ -144,6 +149,10 @@
         h1 a {
             text-decoration: none;
             color: inherit;
+
+            .svg-logo {
+                margin-right: 0.5rem;
+            }
         }
 
         .header-categories {
