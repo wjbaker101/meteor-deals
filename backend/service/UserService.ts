@@ -1,4 +1,5 @@
 import { FirebaseClient } from '../client/FirebaseClient';
+import { LogUtils } from '../util/LogUtils';
 
 import { User } from '../../common/model/User';
 
@@ -7,6 +8,8 @@ export const UserService = {
     async createUser(
             emailAddress: string,
             password: string): Promise<User | Error> {
+
+        LogUtils.log('UserService.createUser');
 
         try {
             const id = await FirebaseClient.createUser(emailAddress, password);
@@ -33,6 +36,8 @@ export const UserService = {
     },
 
     async getUser(id: string): Promise<User | Error> {
+        LogUtils.log('UserService.getUser');
+
         try {
             const userData = await FirebaseClient.getDoc('users', id);
 
@@ -50,6 +55,8 @@ export const UserService = {
     },
 
     async favouriteDeal(userID: string, id: string): Promise<string[] | Error> {
+        LogUtils.log('UserService.favouriteDeal');
+
         try {
             const user = await UserService.getUser(userID);
 
@@ -79,6 +86,8 @@ export const UserService = {
     async removeFavouriteDeal(
             userID: string,
             id: string): Promise<string[] | Error> {
+
+        LogUtils.log('UserService.removeFavouriteDeal');
 
         try {
             const user = await UserService.getUser(userID);

@@ -5,6 +5,7 @@ import { EmailClient } from '../client/EmailClient';
 
 import { FirebaseClient } from '../client/FirebaseClient';
 import { NotifierUserSettingsMapper } from '../mapper/NotifierUserSettingsMapper';
+import { LogUtils } from '../util/LogUtils';
 
 import { Deal } from '../../common/model/Deal';
 import { NotifierUserSettings } from '../../common/model/NotifierUserSettings';
@@ -52,6 +53,8 @@ export const NotifierService = {
     async getUserNotifierSettings(
             userID: string): Promise<NotifierUserSettings | null | Error> {
 
+        LogUtils.log('NotifierService.getUserNotifierSettings');
+
         try {
             const data = await FirebaseClient.getDoc('notifier', userID);
 
@@ -66,6 +69,8 @@ export const NotifierService = {
             userID: string,
             settings: NotifierUserSettings): Promise<void | Error> {
 
+        LogUtils.log('NotifierService.setUserInNotifier');
+
         try {
             await FirebaseClient.setDoc('notifier', userID, settings)
         }
@@ -75,6 +80,8 @@ export const NotifierService = {
     },
 
     async removeUserFromNotifier(userID: string): Promise<void | Error> {
+        LogUtils.log('NotifierService.removeUserFromNotifier');
+
         try {
             await FirebaseClient.updateDoc('notifier', userID, {
                 isEnabled: false,
@@ -86,6 +93,8 @@ export const NotifierService = {
     },
 
     async notifyUsers(deal: Deal): Promise<NotifierResult | Error> {
+        LogUtils.log('NotifierService.notifyUsers');
+
         try {
             const data = await FirebaseClient.getCollection('notifier');
 

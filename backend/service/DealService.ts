@@ -1,5 +1,6 @@
 import { FirebaseClient } from '../client/FirebaseClient';
 import { DealMapper } from '../mapper/DealMapper';
+import { LogUtils } from '../util/LogUtils';
 
 import { Deal } from '../../common/model/Deal';
 import { NotifierService } from './NotifierService';
@@ -7,6 +8,8 @@ import { NotifierService } from './NotifierService';
 export const DealService = {
 
     async getDeals(): Promise<Deal[] | Error> {
+        LogUtils.log('DealService.getDeals');
+
         try {
             const data = await FirebaseClient.getCollection('deals');
 
@@ -20,6 +23,8 @@ export const DealService = {
     },
 
     async addDeal(deal: Deal): Promise<Deal | Error> {
+        LogUtils.log('DealService.addDeal');
+
         try {
             const id = await FirebaseClient.addToCollection('deals', deal);
 
@@ -40,6 +45,8 @@ export const DealService = {
     },
 
     async deleteDeal(id: string): Promise<boolean | Error> {
+        LogUtils.log('DealService.deleteDeal');
+
         try {
             await FirebaseClient.deleteDoc('deals', id);
 
