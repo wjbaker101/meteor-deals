@@ -11,19 +11,19 @@ export const UserService = {
         try {
             const id = await FirebaseClient.createUser(emailAddress, password);
 
-            const userData = await FirebaseClient.setDoc('users', id, {
+            const newUser = {
                 emailAddress,
                 categories: [],
+                favourites: [],
                 isAdmin: false,
-            });
+            };
+
+            const userData = await FirebaseClient.setDoc('users', id, newUser);
 
             if (userData) {
                 return {
+                    ...newUser,
                     id,
-                    emailAddress,
-                    categories: [],
-                    favourites: [],
-                    isAdmin: false,
                 }
             }
         }
