@@ -98,10 +98,10 @@
     export default class NewDealView extends Vue {
 
         private category: string = '';
-        private startDateInput: string = '';
-        private startTimeInput: string = '';
-        private endDateInput: string = '';
-        private endTimeInput: string = '';
+        private startDateInput: string = new Date().toISOString().slice(0,10);
+        private startTimeInput: string = `${new Date().getHours()}:00`;
+        private endDateInput: string = new Date().toISOString().slice(0,10);
+        private endTimeInput: string = `${new Date().getHours()}:00`;
 
         private title: string = '';
         private description: string = '';
