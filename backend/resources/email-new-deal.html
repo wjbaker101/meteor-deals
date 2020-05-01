@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html charset=UTF-8">
+
+        <style>
+            button {
+                width: 100%;
+                padding: 0.5rem 1rem;
+                font: inherit;
+                font-weight: bold;
+                letter-spacing: inherit;
+                background-color: #3939a4;
+                color: #fff;
+                border: 0;
+                border-radius: 0.5rem;
+                box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+
+            button:hover {
+                background-color: #241172;
+                box-shadow: 0 0 8px rgba(34, 34, 34, 0.9) inset;
+            }
+
+            p, h1, h2 {
+                margin: 0;
+                mso-line-height-rule: exactly;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>A New Deal is Available!</h1>
+        <h2>{{deal_title}}</h2>
+        <p>
+            <a href="https://deals.wjbaker.com">
+                <button>Go to Deal</button>
+            </a>
+        </p>
+        <p>A new deal has been added to Meteor Deals.</p>
+        <p>Click on the button above to see the latest deals!</p>
+    </body>
+</html>

@@ -4,7 +4,8 @@
     "private": true,
     "scripts": {
         "frontend": "vue-cli-service serve",
-        "backend": "npx tsc -p ./backend/tsconfig.backend.json && node ./dist/backend/server.js",
+        "copy-backend-resources": "npx cpy-cli \"backend/resources/**.*\" \"dist/backend/resources/\"",
+        "backend": "npx tsc -p ./backend/tsconfig.backend.json && npm run copy-backend-resources && node ./dist/backend/server.js",
         "build": "vue-cli-service build"
     },
     "dependencies": {

@@ -1,14 +1,19 @@
-import firebase from 'firebase/app';
+import firebase, { User } from 'firebase/app';
 import 'firebase/auth';
 
 import secretConfig from '../../common/config/secret-config.json';
-
-import { User } from '@common/model/User';
+import { EventService, Event } from '@/service/EventService';
 
 const app = firebase.initializeApp(secretConfig.firebase);
 const auth = app.auth();
 
 export const FirebaseClient = {
+
+    onAuthStateChanged(user: User | null): void {
+        if (user) {
+            EventService.$emit(Event.USER_AVAILABLE, user);
+        }
+    },
 
     async login(emailAddress: string, password: string): Promise<string | Error> {
         try {
@@ -43,10 +48,18 @@ export const FirebaseClient = {
     async getUserToken(): Promise<string | null> {
         const user = auth.currentUser;
 
-        if (!user) {
+        try {
+            if (!user) {
+                return null;
+            }
+
+            return await user.getIdToken();
+        }
+        catch (exception) {
             return null;
         }
 
-        return await user.getIdToken();
     },
 }
+
+auth.onAuthStateChanged(FirebaseClient.onAuthStateChanged);

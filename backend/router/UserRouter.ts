@@ -3,7 +3,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import { UserService } from '../service/UserService';
 import { Auth } from '../auth/Auth';
 import { LogUtils } from '../util/LogUtils';
-import { EmailService } from '../service/EmailService';
+import { NotifierService } from '../service/NotifierService';
+import { NotifierUserSettings } from '../../common/model/NotifierUserSettings';
 
 const userRouter = express.Router();
 
@@ -75,6 +76,60 @@ const removeFavouriteDeal = async (request: Request, response: Response) => {
     response.send(favourites);
 };
 
+const getUserNotifierSettings = async (
+        request: Request,
+        response: Response) => {
+
+    const { uid: userID } = response.locals;
+
+    const result = await NotifierService.getUserNotifierSettings(userID);
+
+    if (result instanceof Error) {
+        response.status(500).send({
+            error: `Something went wrong when getting user's notifier.`,
+        });
+
+        return;
+    }
+
+    response.send({
+        result,
+    });
+};
+
+const setUserInNotifier = async (request: Request, response: Response) => {
+    const settings: NotifierUserSettings = request.body;
+    const { uid: userID } = response.locals;
+
+    const result = await NotifierService.setUserInNotifier(userID, settings);
+
+    if (result instanceof Error) {
+        response.status(500).send({
+            error: `Something went wrong when setting user's notifier.`,
+        });
+
+        return;
+    }
+
+    response.send();
+};
+
+const removeUserFromNotifier = async (request: Request, response: Response) => {
+    const { uid: userID } = response.locals;
+
+    const result = await NotifierService.removeUserFromNotifier(userID);
+
+    if (result instanceof Error) {
+        response.status(500).send({
+            error: `Something went wrong when removing user's notifier.`,
+        });
+
+        return;
+    }
+
+    response.send();
+};
+
 userRouter.post('/user', createUser);
 
 userRouter.get('/user/login', Auth.requiresAuthorisation, login);
@@ -86,5 +141,17 @@ userRouter.post('/user/favourite/:id',
 userRouter.delete('/user/favourite/:id',
         Auth.requiresAuthorisation,
         removeFavouriteDeal);
+
+userRouter.get('/user/notifier',
+        Auth.requiresAuthorisation,
+        getUserNotifierSettings);
+
+userRouter.post('/user/notifier',
+        Auth.requiresAuthorisation,
+        setUserInNotifier);
+
+userRouter.delete('/user/notifier',
+        Auth.requiresAuthorisation,
+        removeUserFromNotifier);
 
 export const UserRouter = userRouter;

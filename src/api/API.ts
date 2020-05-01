@@ -4,6 +4,7 @@ import { FirebaseClient } from '@/api/FirebaseClient';
 import { DealConverter } from '@/util/DealConverter';
 
 import { Deal } from '@common/model/Deal';
+import { NotifierUserSettings } from '@common/model/NotifierUserSettings';
 import { User } from '@common/model/User';
 
 const api = axios.create({
@@ -138,6 +139,76 @@ export const API = {
             }
 
             const result = await api.delete<string[]>(`/user/favourite/${id}`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                        },
+                    });
+
+            return result.data;
+        }
+        catch (exception) {
+            return new Error(exception);
+        }
+    },
+
+    async getNotifier() {
+        try {
+            const userToken = await FirebaseClient.getUserToken();
+
+            if (userToken === null) {
+                return new Error('User is not logged in.');
+            }
+
+            interface APIResponse {
+                result: NotifierUserSettings,
+            }
+
+            const result = await api.get<APIResponse>('/user/notifier',
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                        },
+                    });
+
+            return result.data.result;
+        }
+        catch (exception) {
+            return new Error(exception);
+        }
+    },
+
+    async enableNotifier(settings: NotifierUserSettings) {
+        try {
+            const userToken = await FirebaseClient.getUserToken();
+
+            if (userToken === null) {
+                return new Error('User is not logged in.');
+            }
+
+            const result = await api.post<void>('/user/notifier', settings,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                        },
+                    });
+
+            return result.data;
+        }
+        catch (exception) {
+            return new Error(exception);
+        }
+    },
+
+    async disableNotifier() {
+        try {
+            const userToken = await FirebaseClient.getUserToken();
+
+            if (userToken === null) {
+                return new Error('User is not logged in.');
+            }
+
+            const result = await api.delete<void>('/user/notifier',
                     {
                         headers: {
                             'Authorization': `Bearer ${userToken}`,

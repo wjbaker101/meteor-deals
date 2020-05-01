@@ -2,6 +2,7 @@ import { FirebaseClient } from '../client/FirebaseClient';
 import { DealMapper } from '../mapper/DealMapper';
 
 import { Deal } from '../../common/model/Deal';
+import { NotifierService } from './NotifierService';
 
 export const DealService = {
 
@@ -22,10 +23,16 @@ export const DealService = {
         try {
             const id = await FirebaseClient.addToCollection('deals', deal);
 
-            return {
+            const newDeal = {
                 ...deal,
                 id,
-            }
+            };
+
+            (async () => {
+                await NotifierService.notifyUsers(newDeal);
+            })();
+
+            return newDeal;
         }
         catch (exception) {
             return new Error(exception);

@@ -5,4 +5,6 @@ export const EventService = new Vue();
 export const Event = {
     MODAL_SHOW: 'modal_show',
     MODAL_HIDE: 'modal_hide',
+
+    USER_AVAILABLE: 'user_available',
 }

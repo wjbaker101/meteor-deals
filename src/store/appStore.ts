@@ -1,25 +1,34 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import { API } from '@/api/API';
 import { CacheService } from '@/service/CacheService';
+import { API } from '@/api/API';
 import { DealConverter } from '@/util/DealConverter';
 
 import { Category } from '@common/model/Category';
 import { Deal } from '@common/model/Deal';
 import { User } from '@common/model/User';
 import { Store } from '@/model/Store';
-import { FirebaseClient } from '@/api/FirebaseClient';
+import { NotifierUserSettings } from '@common/model/NotifierUserSettings';
 
 Vue.use(Vuex);
 
 const CACHE_CATEGORIES = 'cache_categories';
 const CACHE_DEALS = 'cache_deals';
 const CACHE_USER = 'cache_user';
+const CACHE_NOTIFIER_SETTINGS = 'cache_notifier_settings';
 
 const dealsCacheTimeout = process.env.NODE_ENV !== 'production'
         ? 1000
         : 1000 * 60 * 5;
+
+export const initAppStore = async (state: Store) => {
+    const user = await CacheService.get<User>(CACHE_USER);
+
+    if (user !== null) {
+        state.user = user;
+    }
+}
 
 export const appStore = new Vuex.Store({
 
@@ -28,6 +37,7 @@ export const appStore = new Vuex.Store({
         categories: Array<Category>(),
         deals: Array<Deal>(),
         user: null,
+        notifierUserSettings: undefined,
     } as Store,
 
     mutations: {
@@ -58,21 +68,35 @@ export const appStore = new Vuex.Store({
                 state.deals = deals.map(DealConverter.fromCache);
             }
 
-            const user = await CacheService.get<User>(CACHE_USER);
+            const notifierUserSettings =
+                    await CacheService.get<NotifierUserSettings>(
+                            CACHE_NOTIFIER_SETTINGS);
 
-            if (user !== null) {
-                state.user = user;
+            if (notifierUserSettings !== null) {
+                state.notifierUserSettings = notifierUserSettings;
             }
 
             appStore.subscribe(async (mutation, state) => {
-                if (mutation.type === 'addCategory'
-                        || mutation.type === 'removeCategoryAtIndex') {
+                switch (mutation.type) {
+                    case 'addCategory':
+                    case 'removeCategoryAtIndex': {
+                        await CacheService.set(
+                                CACHE_CATEGORIES,
+                                state.categories);
+                        break;
+                    }
 
-                    await CacheService.set(CACHE_CATEGORIES, state.categories);
-                }
+                    case 'setUser': {
+                        await CacheService.set(CACHE_USER, state.user);
+                        break;
+                    }
 
-                if (mutation.type === 'setUser') {
-                    await CacheService.set(CACHE_USER, state.user)
+                    case 'setNotifierUserSettings': {
+                        await CacheService.set(
+                                CACHE_NOTIFIER_SETTINGS,
+                                state.notifierUserSettings);
+                        break;
+                    }
                 }
             });
         },
@@ -100,6 +124,10 @@ export const appStore = new Vuex.Store({
         setUser(state, user: User): void {
             state.user = user;
         },
+
+        setNotifierUserSettings(state, settings: NotifierUserSettings): void {
+            state.notifierUserSettings = settings;
+        },
     },
 
     actions: {
@@ -121,6 +149,10 @@ export const appStore = new Vuex.Store({
 
         setUser(store, user: User): void {
             store.commit('setUser', user);
+        },
+
+        setNotifierUserSettings(store, settings: NotifierUserSettings): void {
+            store.commit('setNotifierUserSettings', settings);
         },
     },
 });
