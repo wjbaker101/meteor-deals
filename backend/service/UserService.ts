@@ -2,6 +2,7 @@ import { FirebaseClient } from '../client/FirebaseClient';
 import { LogUtils } from '../util/LogUtils';
 
 import { User } from '../../common/model/User';
+import { Category } from '../../common/model/Category';
 
 export const UserService = {
 
@@ -16,8 +17,8 @@ export const UserService = {
 
             const newUser = {
                 emailAddress,
-                categories: [],
-                favourites: [],
+                categories: Array<Category>(),
+                favourites: Array<string>(),
                 isAdmin: false,
             };
 

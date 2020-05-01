@@ -102,23 +102,19 @@ export const NotifierService = {
                 NotifierUserSettingsMapper.fromFirestore(d.id, d.data())
             ))
             .filter(r => r.isEnabled)
-            .filter(r => (
-                deal.categories
-                    .map(c => c.toLowerCase())
-                    .some(c => (
-                        r.whitelistedCategories
-                            .map(w => w.toLowerCase())
-                            .some(w => c === w)
+            .filter(r => r.whitelistedCategories.length === 0 || (
+                deal.categories.some(dealCategory => (
+                    r.whitelistedCategories.some(category => (
+                        category.toLowerCase() === dealCategory.toLowerCase()
                     ))
+                ))
             ))
-            .filter(r => !(
-                deal.categories
-                    .map(c => c.toLowerCase())
-                    .some(c => (
-                        r.whitelistedCategories
-                            .map(w => w.toLowerCase())
-                            .some(w => c === w)
+            .filter(r => r.blacklistedCategories.length === 0 || !(
+                deal.categories.some(dealCategory => (
+                    r.blacklistedCategories.some(category => (
+                        category.toLowerCase() === dealCategory.toLowerCase()
                     ))
+                ))
             ));
 
             const textContent = getEmailContent('text', deal);
