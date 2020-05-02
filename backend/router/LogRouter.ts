@@ -10,6 +10,6 @@ const logIncomingRequests = async (request: Request, response: Response, next: N
     next();
 };
 
-logRouter.all('*', logIncomingRequests);
+logRouter.all('/api*', logIncomingRequests);
 
 export const LogRouter = logRouter;
