@@ -3,6 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { EmailClient } from '../client/EmailClient';
 
+import secretConfig from '../../common/config/secret-config.json';
+
 import { FirebaseClient } from '../client/FirebaseClient';
 import { NotifierUserSettingsMapper } from '../mapper/NotifierUserSettingsMapper';
 import { LogUtils } from '../util/LogUtils';
@@ -16,8 +18,11 @@ const getEmailContent = (type: string, deal: Deal) => {
             ? '../resources/email-new-deal.html'
             : '../resources/email-new-deal.txt';
 
+    const categories = deal.categories.map(c => `<span>${c}</span>`).join('');
+
     return fs.readFileSync(path.join(__dirname, file), 'utf8')
-            .replace('{{deal_title}}', deal.title);
+            .replace('{{deal_title}}', deal.title)
+            .replace('{{deal_categories}}', categories);
 };
 
 const notify = async (
@@ -98,9 +103,12 @@ export const NotifierService = {
         try {
             const data = await FirebaseClient.getCollection('notifier');
 
+            const { testEmails } = secretConfig.email;
+
             const recipients = data.map(d => (
                 NotifierUserSettingsMapper.fromFirestore(d.id, d.data())
             ))
+            // .filter(r => testEmails.includes(r.emailAddress))
             .filter(r => r.isEnabled)
             .filter(r => r.whitelistedCategories.length === 0 || (
                 deal.categories.some(dealCategory => (

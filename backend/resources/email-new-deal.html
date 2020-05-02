@@ -6,40 +6,86 @@
         <style>
             button {
                 width: 100%;
-                padding: 0.5rem 1rem;
+                padding: 15px;
                 font: inherit;
                 font-weight: bold;
                 letter-spacing: inherit;
                 background-color: #3939a4;
-                color: #fff;
+                color: #ffffff;
                 border: 0;
-                border-radius: 0.5rem;
-                box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
+                border-radius: 7px;
                 cursor: pointer;
                 transition: background-color 0.2s;
             }
 
             button:hover {
                 background-color: #241172;
-                box-shadow: 0 0 8px rgba(34, 34, 34, 0.9) inset;
             }
 
             p, h1, h2 {
-                margin: 0;
-                mso-line-height-rule: exactly;
+                margin: 15px 0;
+                color: #222222;
+            }
+
+            a {
+                text-decoration: none;
+                font-weight: bold;
+                color: #241172;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+            .content {
+                width: 600px;
+                padding: 15px;
+                text-align: center;
+                border-radius: 7px;
+                color: #222222;
+            }
+
+            .categories span {
+                display: inline-block;
+                line-height: 13px;
+                padding: 3px 8px;
+                margin: 0 4px;
+                font-size: 13px;
+                background-color: #01e7ff;
+                color: #222222;
+                border-radius: 8px;
+                box-shadow: 0 0 8px rgba(34, 34, 34, 0.3) inset;
             }
         </style>
     </head>
 
-    <body>
-        <h1>A New Deal is Available!</h1>
-        <h2>{{deal_title}}</h2>
-        <p>
-            <a href="https://deals.wjbaker.com">
-                <button>Go to Deal</button>
-            </a>
-        </p>
-        <p>A new deal has been added to Meteor Deals.</p>
-        <p>Click on the button above to see the latest deals!</p>
+    <body style="font-family: Arial, Helvetica, sans-serif;">
+        <table style="width: 100%;">
+            <tr>
+                <td>&nbsp;</td>
+                <td class="content">
+                    <h1>A New Deal Has Landed!</h1>
+                    <img width="120" height="120" src="http://deals.wjbaker.com/img/icons/email-logo.png">
+                    <h2>{{deal_title}}</h2>
+                    <p class="categories">
+                        {{deal_categories}}
+                    </p>
+                    <br>
+                    <p>
+                        <a href="https://deals.wjbaker.com">
+                            <button>Uncover this Deal</button>
+                        </a>
+                    </p>
+                    <br>
+                    <p>A new deal has been added to Meteor Deals.</p>
+                    <p>Click on the button above to see the latest deals!</p>
+                    <br>
+                    <small>
+                        <p>To unsubscribe from email notifications, <a href="https://deals.wjbaker.com/login">log into your account</a> and turn off notifications.</p>
+                    </small>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
     </body>
 </html>
