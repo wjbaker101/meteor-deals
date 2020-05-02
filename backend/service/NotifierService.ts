@@ -1,6 +1,6 @@
-
 import fs from 'fs';
 import path from 'path';
+
 import { EmailClient } from '../client/EmailClient';
 
 import secretConfig from '../../common/config/secret-config.json';
