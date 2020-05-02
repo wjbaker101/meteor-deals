@@ -86,7 +86,8 @@ export const appStore = new Vuex.Store({
                         break;
                     }
 
-                    case 'addDeal': {
+                    case 'addDeal':
+                    case 'setDeals': {
                         await CacheService.set(CACHE_DEALS, state.deals);
                         break;
                     }
