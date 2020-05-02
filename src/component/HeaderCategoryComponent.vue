@@ -6,6 +6,9 @@
         <div>
             <CategoryComponent :category="category" />
         </div>
+        <div>
+            ({{ frequency }})
+        </div>
         <span class="remove" @click="onRemoveCategory">
             &times;
         </span>
@@ -31,6 +34,9 @@
 
         @Prop()
         private readonly category!: Category;
+
+        @Prop()
+        private readonly frequency!: number;
 
         get isEnabled(): boolean {
             return this.category.isEnabled;

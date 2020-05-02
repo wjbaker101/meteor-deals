@@ -27,6 +27,7 @@
                     :key="`category-${category.name}`"
                     v-for="(category, index) in categories"
                     :category="category"
+                    :frequency="getCategoryFrequency(category.name)"
                     :index="index" />
             </div>
         </div>
@@ -54,6 +55,7 @@
     import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
     import { Category } from '@common/model/Category';
+    import { Deal } from '@common/model/Deal';
     import { User } from '@common/model/User';
 
     import { EventService, Event } from '@/service/EventService';
@@ -95,6 +97,27 @@
             this.$store.dispatch('setSearchText', searchText);
         }
 
+        get categoryFrequencies(): Record<string, number> {
+            const deals: Deal[] = this.$store.state.deals;
+
+            const frequencies: Record<string, number> = {};
+
+            deals.forEach(deal => {
+                deal.categories.forEach(c => {
+                    const category = c.toLowerCase();
+
+                    if (category in frequencies) {
+                        frequencies[category]++;
+                    }
+                    else {
+                        frequencies[category] = 1;
+                    }
+                });
+            });
+
+            return frequencies;
+        }
+
         onCategoryInputEnter(e: KeyboardEvent): void {
             if (this.category.length < 3) {
                 return;
@@ -118,6 +141,10 @@
             if (!this.doShowLogIn) {
                 this.doShowLogIn = true;
             }
+        }
+
+        getCategoryFrequency(category: string): number {
+            return this.categoryFrequencies[category.toLowerCase()] || 0;
         }
     }
 </script>
