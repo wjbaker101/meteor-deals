@@ -47,7 +47,6 @@
 
     Component.registerHooks([
         'beforeRouteEnter',
-        'beforeRouteUpdate',
     ]);
 
     @Component({
@@ -70,6 +69,21 @@
         private errorMessage: string = '';
 
         private isLoading: boolean = false;
+
+        beforeRouteEnter(
+                to: Route,
+                from: Route,
+                next: any) {
+
+            next((vm: Vue) => {
+                if (vm.$store.state.user !== null) {
+                    next('/user')
+                }
+                else {
+                    next();
+                }
+            });
+        }
 
         async onLoginClicked(): Promise<void> {
             if (!this.isValidInput()) {

@@ -88,6 +88,7 @@
 
 <script lang="ts">
     import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+    import { Route } from 'vue-router';
     import { User as FirebaseUser } from 'firebase/app';
 
     import { API } from '@/api/API';
@@ -100,6 +101,10 @@
     import { Category } from '@common/model/Category';
     import { User } from '@common/model/User';
     import { NotifierUserSettings } from '@common/model/NotifierUserSettings';
+
+    Component.registerHooks([
+        'beforeRouteEnter',
+    ]);
 
     @Component({
         components: {
@@ -136,6 +141,21 @@
                     await this.loadNotifierSettings();
                 });
             }
+        }
+
+        beforeRouteEnter(
+                to: Route,
+                from: Route,
+                next: any) {
+
+            next((vm: Vue) => {
+                if (vm.$store.state.user === null) {
+                    next('/login')
+                }
+                else {
+                    next();
+                }
+            });
         }
 
         @Watch('isNotifierEnabled')
