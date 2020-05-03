@@ -6,8 +6,8 @@
                 <br>
                 All rights reserved.
             </p>
-            <p>Developed and maintained by <a href="https://wjbaker.com">William Baker</a>.</p>
-            <p>Icons provided by <a href="https://fontawesome.com/license">FontAwesome</a>.</p>
+            <p>Developed and maintained by <a href="https://wjbaker.com" rel="nofollow noreferrer noopener" target="_blank">William Baker</a>.</p>
+            <p>Icons provided by <a href="https://fontawesome.com/license" rel="nofollow noreferrer noopener" target="_blank">FontAwesome</a>.</p>
         </small>
     </div>
 </template>
