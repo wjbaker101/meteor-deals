@@ -1,0 +1,9 @@
+a {
+    font-weight: bold;
+    color: inherit;
+    vertical-align: baseline;
+
+    &:hover {
+        text-decoration: none;
+    }
+}

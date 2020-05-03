@@ -1,7 +1,10 @@
 <template>
     <div id="app" class="flex">
         <HeaderComponent />
-        <router-view class="router-view" />
+        <div class="router-view flex">
+            <router-view />
+            <FooterComponent />
+        </div>
     </div>
 </template>
 
@@ -9,10 +12,12 @@
     import { Component, Prop, Vue } from 'vue-property-decorator';
 
     import HeaderComponent from '@/component/HeaderComponent.vue';
+    import FooterComponent from '@/component/FooterComponent.vue';
 
     @Component({
         components: {
             HeaderComponent,
+            FooterComponent,
         },
     })
     export default class App extends Vue {
@@ -29,6 +34,7 @@
     @import './style/button';
     @import './style/input';
     @import './style/icon';
+    @import './style/links';
 
     #app {
         grid-template-columns: var(--nav-width) 1fr;
@@ -40,8 +46,13 @@
 
     .router-view {
         flex: 1;
+        flex-direction: column;
         overflow-y: auto;
         padding: var(--spacing-small);
+
+        & > * {
+            flex: 1;
+        }
 
         @media only screen and (max-width: 50rem) {
             overflow-y: initial;
