@@ -25,7 +25,10 @@
             <p v-if="deals !== null && !isDealsLoading && expiredDeals.length === 0">
                 No deals have expired yet!
             </p>
-            <div v-else-if="deals !== null" class="deals-container grid">
+            <div
+                v-else-if="deals !== null && !isDealsLoading"
+                class="deals-container grid"
+            >
                 <DealComponent
                     :key="deal.id"
                     v-for="deal in expiredDeals"

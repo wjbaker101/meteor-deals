@@ -9,7 +9,7 @@ import { Deal } from '@common/model/Deal';
 const CACHE_DEALS = 'cache_deals';
 
 const timeout = process.env.NODE_ENV !== 'production'
-        ? 1000 * 60
+        ? 1000
         : 1000 * 60 * 5;
 
 export const DealService = {
