@@ -8,6 +8,7 @@ import secretConfig from '../../common/config/secret-config.json';
 import { FirebaseClient } from '../client/FirebaseClient';
 import { NotifierUserSettingsMapper } from '../mapper/NotifierUserSettingsMapper';
 import { LogUtils } from '../util/LogUtils';
+import { alphabetical } from '../../common/util/SortUtils';
 
 import { Deal } from '../../common/model/Deal';
 import { NotifierUserSettings } from '../../common/model/NotifierUserSettings';
@@ -18,7 +19,10 @@ const getEmailContent = (type: string, deal: Deal) => {
             ? '../resources/email-new-deal.html'
             : '../resources/email-new-deal.txt';
 
-    const categories = deal.categories.map(c => `<span>${c}</span>`).join('');
+    const categories = deal.categories
+            .sort(alphabetical)
+            .map(c => `<span>${c}</span>`)
+            .join('');
 
     return fs.readFileSync(path.join(__dirname, file), 'utf8')
             .replace('{{deal_title}}', deal.title)
