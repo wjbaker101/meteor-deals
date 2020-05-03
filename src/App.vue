@@ -50,7 +50,7 @@
         overflow-y: auto;
         padding: var(--spacing-small);
 
-        & > * {
+        & > :first-child {
             flex: 1;
         }
 
