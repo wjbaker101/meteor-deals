@@ -22,25 +22,28 @@
                     @keyup.enter="onPasswordEnter"
                 >
             </label>
-            <p></p>
-            <ButtonComponent @click="onLoginClicked" :isLoading="isLoading">
-                Log In
-            </ButtonComponent>
-            <p v-if="errorMessage">
-                {{ errorMessage }}
+            <p>
+                <ButtonComponent @click="onLoginClicked" :isLoading="isLoading">
+                    Log In
+                </ButtonComponent>
             </p>
+            <ErrorContainerComponent
+                v-if="errorMessage"
+                :message="errorMessage"
+            />
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+    import { Component, Prop, Vue, Watch, Ref } from 'vue-property-decorator';
     import { Route } from 'vue-router';
 
     import { API } from '@/api/API';
     import { FirebaseClient } from '@/api/FirebaseClient';
 
     import ButtonComponent from '@/component/ButtonComponent.vue';
+    import ErrorContainerComponent from '@/component/ErrorContainerComponent.vue';
 
     Component.registerHooks([
         'beforeRouteEnter',
@@ -50,9 +53,16 @@
     @Component({
         components: {
             ButtonComponent,
+            ErrorContainerComponent,
         },
     })
     export default class LoginView extends Vue {
+
+        @Ref()
+        private readonly emailAddressInput!: HTMLInputElement;
+
+        @Ref()
+        private readonly passwordInput!: HTMLInputElement;
 
         private emailAddress: string = '';
         private password: string = '';
@@ -60,14 +70,6 @@
         private errorMessage: string = '';
 
         private isLoading: boolean = false;
-
-        get emailAddressInput(): HTMLInputElement {
-            return this.$refs.emailAddressInput as HTMLInputElement;
-        }
-
-        get passwordInput(): HTMLInputElement {
-            return this.$refs.passwordInput as HTMLInputElement;
-        }
 
         async onLoginClicked(): Promise<void> {
             if (!this.isValidInput()) {
@@ -83,18 +85,20 @@
             this.isLoading = false;
 
             if (user instanceof Error) {
+                this.errorMessage = 'Invalid credentials, please try again.';
                 return;
             }
 
             const userData = await API.login();
 
             if (userData instanceof Error) {
+                this.errorMessage = 'Sorry, we were unable to log you in. Please try again in a moment.';
                 return;
             }
 
             this.$store.dispatch('setUser', userData);
 
-            this.$router.push({ path: '/', });
+            this.$router.push({ path: '/user', });
         }
 
         isValidInput(): boolean {

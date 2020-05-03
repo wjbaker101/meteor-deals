@@ -32,31 +32,41 @@
                     @keyup.enter="onPasswordConfirmEnter"
                 >
             </label>
-            <p></p>
-            <ButtonComponent @click="onCreateClicked" :isLoading="isLoading">
-                Submit
-            </ButtonComponent>
-            <p v-if="errorMessage">
-                {{ errorMessage }}
+            <p>
+                <ButtonComponent @click="onCreateClicked" :isLoading="isLoading">
+                    Submit
+                </ButtonComponent>
             </p>
+            <ErrorContainerComponent v-if="errorMessage" :message="errorMessage" />
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+    import { Component, Prop, Vue, Watch, Ref } from 'vue-property-decorator';
 
     import { API } from '@/api/API';
     import { FirebaseClient } from '@/api/FirebaseClient';
 
     import ButtonComponent from '@/component/ButtonComponent.vue';
+    import ErrorContainerComponent from '@/component/ErrorContainerComponent.vue';
 
     @Component({
         components: {
             ButtonComponent,
+            ErrorContainerComponent,
         },
     })
     export default class UserCreateView extends Vue {
+
+        @Ref()
+        private readonly emailAddressInput!: HTMLInputElement;
+
+        @Ref()
+        private readonly passwordInput!: HTMLInputElement;
+
+        @Ref()
+        private readonly passwordConfirmInput!: HTMLInputElement;
 
         private emailAddress: string = '';
         private password: string = '';
@@ -65,18 +75,6 @@
         private errorMessage: string = '';
 
         private isLoading: boolean = false;
-
-        get emailAddressInput(): HTMLInputElement {
-            return this.$refs.emailAddressInput as HTMLInputElement;
-        }
-
-        get passwordInput(): HTMLInputElement {
-            return this.$refs.passwordInput as HTMLInputElement;
-        }
-
-        get passwordConfirmInput(): HTMLInputElement {
-            return this.$refs.passwordConfirmInput as HTMLInputElement;
-        }
 
         async onCreateClicked(): Promise<void> {
             if (!this.isValidInput()) {
@@ -92,6 +90,7 @@
             this.isLoading = false;
 
             if (user instanceof Error) {
+                this.errorMessage = 'Sorry, we were unable to create your user. Please try again in a moment.';
                 return;
             }
 
