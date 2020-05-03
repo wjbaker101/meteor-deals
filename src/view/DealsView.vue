@@ -3,6 +3,10 @@
         <div>
             <h2>Newest Deals ({{ newestDeals.length }})</h2>
             <LoadingComponent v-if="isDealsLoading" message="Loading deals..." />
+            <ErrorContainerComponent
+                v-else-if="deals === null"
+                message="Sorry, we were unable to get deals. Please try again in a moment."
+            />
             <div v-else>
                 <p v-if="newestDeals.length === 0">
                     No deals to show yet, make sure to check back later!
@@ -18,10 +22,10 @@
         </div>
         <div>
             <h2>Expired Deals ({{ expiredDeals.length }})</h2>
-            <p v-if="!isDealsLoading && expiredDeals.length === 0">
+            <p v-if="deals !== null && !isDealsLoading && expiredDeals.length === 0">
                 No deals have expired yet!
             </p>
-            <div class="deals-container grid">
+            <div v-else-if="deals !== null" class="deals-container grid">
                 <DealComponent
                     :key="deal.id"
                     v-for="deal in expiredDeals"
@@ -50,13 +54,15 @@
     import { Deal } from '@common/model/Deal';
     import { Category } from '@common/model/Category';
 
+    import { API } from '@/api/API';
+    import { DealService } from '@/service/DealService';
     import { EventService, Event } from '@/service/EventService';
 
     import ButtonComponent from '@/component/ButtonComponent.vue';
     import DealComponent from '@/component/DealComponent.vue';
     import LoadingComponent from '@/component/LoadingComponent.vue';
     import ModalComponent from '@/component/ModalComponent.vue';
-import { API } from '../api/API';
+    import ErrorContainerComponent from '@/component/ErrorContainerComponent.vue';
 
     @Component({
         components: {
@@ -64,6 +70,7 @@ import { API } from '../api/API';
             DealComponent,
             LoadingComponent,
             ModalComponent,
+            ErrorContainerComponent,
         },
     })
     export default class DealsView extends Vue {
@@ -83,17 +90,15 @@ import { API } from '../api/API';
             return this.$store.state.categories;
         }
 
-        get deals(): Deal[] {
-            const deals = this.$store.state.deals;
-
-            if (deals.length > 0) {
-                this.isDealsLoading = false;
-            }
-
-            return deals;
+        get deals(): Deal[] | null {
+            return this.$store.state.deals;
         }
 
         get filteredDeals(): Deal[] {
+            if (this.deals === null) {
+                return [];
+            }
+
             return this.deals
                 .filter(this.matchDealWithSearchText)
                 .filter(this.matchDealWithCategories);
@@ -109,6 +114,14 @@ import { API } from '../api/API';
             return this.filteredDeals
                 .filter(this.dealEndDateFilter(false))
                 .sort(this.dealEndDateSort(false));
+        }
+
+        async mounted(): Promise<void> {
+            this.isDealsLoading = true;
+
+            await DealService.initDeals();
+
+            this.isDealsLoading = false;
         }
 
         matchDealWithSearchText(deal: Deal): boolean {

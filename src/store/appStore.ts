@@ -35,7 +35,7 @@ export const appStore = new Vuex.Store({
     state: {
         searchText: '',
         categories: Array<Category>(),
-        deals: Array<Deal>(),
+        deals: null,
         user: null,
         notifierUserSettings: undefined,
     } as Store,
@@ -47,25 +47,6 @@ export const appStore = new Vuex.Store({
 
             if (categories !== null) {
                 state.categories = categories;
-            }
-
-            const deals = await CacheService.get<Deal[]>(
-                    CACHE_DEALS,
-                    dealsCacheTimeout);
-
-            if (deals === null) {
-                const deals = await API.getDeals();
-
-                if (deals instanceof Error) {
-                    return;
-                }
-
-                state.deals = deals;
-
-                await CacheService.set(CACHE_DEALS, state.deals);
-            }
-            else {
-                state.deals = deals.map(DealConverter.fromCache);
             }
 
             const notifierUserSettings =
@@ -124,6 +105,10 @@ export const appStore = new Vuex.Store({
         },
 
         addDeal(state, deal: Deal): void {
+            if (state.deals === undefined || state.deals === null) {
+                return;
+            }
+
             state.deals.push(deal);
         },
 
@@ -151,6 +136,10 @@ export const appStore = new Vuex.Store({
 
         addDeal(store, deal: Deal): void {
             store.commit('addDeal', deal);
+        },
+
+        setDeals(store, deals: Deal[]): void {
+            store.commit('setDeals', deals);
         },
 
         setUser(store, user: User): void {

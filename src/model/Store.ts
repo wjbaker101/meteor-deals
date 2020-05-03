@@ -6,7 +6,7 @@ import { NotifierUserSettings } from '@common/model/NotifierUserSettings';
 export interface Store {
     searchText: string,
     categories: Category[],
-    deals: Deal[],
+    deals: Deal[] | null,
     user: User | null,
     notifierUserSettings: NotifierUserSettings | null | undefined,
 }
