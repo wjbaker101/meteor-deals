@@ -1,8 +1,10 @@
 <template>
     <div class="modal-component flex" :class="{ 'is-showing': isShowing }">
-        <div class="content container-theme-4">
+        <div class="content container">
             <slot />
-            <div class="close">&times;</div>
+            <div class="close" @click="onHideModal(id)">
+                <CloseIcon />
+            </div>
         </div>
     </div>
 </template>
@@ -12,8 +14,12 @@
 
     import { EventService, Event } from '@/service/EventService';
 
+    import CloseIcon from '@/assets/icon/times.svg';
+
     @Component({
-        components: {},
+        components: {
+            CloseIcon,
+        },
     })
     export default class ModalComponent extends Vue {
 
@@ -59,7 +65,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.7);
         opacity: 0;
         pointer-events: none;
         transition: opacity var(--duration);
@@ -79,6 +85,12 @@
             top: 0;
             right: 0;
             padding: var(--spacing-small);
+            cursor: pointer;
+            transition: color var(--duration);
+
+            &:hover {
+                color: var(--secondary);
+            }
         }
     }
 </style>

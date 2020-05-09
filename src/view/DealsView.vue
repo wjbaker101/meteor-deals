@@ -46,7 +46,7 @@
                 <ButtonComponent @click="onDeleteDeal">Delete</ButtonComponent>
             </p>
             <p>
-                <ButtonComponent @click="onCancelModal">Cancel</ButtonComponent>
+                <ButtonComponent @click="onCancelModal" :isSecondary="true">Cancel</ButtonComponent>
             </p>
         </ModalComponent>
     </div>
