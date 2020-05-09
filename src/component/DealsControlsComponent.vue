@@ -4,6 +4,11 @@
             <ButtonComponent :isSecondary="true">
                 <FilterIcon />Search &amp; Filter
             </ButtonComponent>
+            <div v-if="enabledCategoriesLength > 0">
+                <small>
+                    <em>({{ enabledCategoriesLength }} categories enabled)</em>
+                </small>
+            </div>
         </div>
         <div class="controls container-dark flex" v-if="isOpen">
             <div class="search">
@@ -73,6 +78,10 @@
             return this.$store.state.categories;
         }
 
+        get enabledCategoriesLength(): number {
+            return this.categories.filter(c => c.isEnabled).length;
+        }
+
         get categoryFrequencies(): Record<string, number> {
             const deals: Deal[] = this.$store.state.deals;
 
@@ -134,6 +143,7 @@
         .open-button {
             display: table;
             margin-left: auto;
+            text-align: right;
         }
 
         .search,
