@@ -9,9 +9,7 @@
         <div>
             ({{ frequency }})
         </div>
-        <span class="remove" @click="onRemoveCategory">
-            &times;
-        </span>
+        <CrossIcon class="remove" @click="onRemoveCategory" />
     </div>
 </template>
 
@@ -20,10 +18,12 @@
 
     import { Category } from '@common/model/Category';
 
+    import CrossIcon from '@/assets/icon/times.svg';
     import CategoryComponent from '@/component/CategoryComponent.vue';
 
     @Component({
         components: {
+            CrossIcon,
             CategoryComponent,
         },
     })
@@ -56,12 +56,19 @@
     .header-category-component {
         align-items: center;
         margin-bottom: var(--spacing-xsmall);
+        line-height: 1em;
+
 
         .remove {
-            font-size: 1.5rem;
-            font-weight: bold;
-            line-height: 1em;
+            $size: 0.8rem;
+
+            width: $size;
+            height: $size;
             cursor: pointer;
+
+            &:hover {
+                color: var(--secondary);
+            }
         }
     }
 </style>
