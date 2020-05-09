@@ -1,5 +1,6 @@
 <template>
     <div class="deals-view flex">
+        <DealsControlsComponent />
         <div>
             <h2>Newest Deals ({{ newestDeals.length }})</h2>
             <LoadingComponent v-if="isDealsLoading" message="Loading deals..." />
@@ -63,6 +64,7 @@
 
     import ButtonComponent from '@/component/ButtonComponent.vue';
     import DealComponent from '@/component/DealComponent.vue';
+    import DealsControlsComponent from '@/component/DealsControlsComponent.vue';
     import LoadingComponent from '@/component/LoadingComponent.vue';
     import ModalComponent from '@/component/ModalComponent.vue';
     import ErrorContainerComponent from '@/component/ErrorContainerComponent.vue';
@@ -71,6 +73,7 @@
         components: {
             ButtonComponent,
             DealComponent,
+            DealsControlsComponent,
             LoadingComponent,
             ModalComponent,
             ErrorContainerComponent,

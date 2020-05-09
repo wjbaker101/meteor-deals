@@ -1,7 +1,7 @@
 <template>
-    <div id="app" class="flex">
+    <div id="app">
         <HeaderComponent />
-        <div class="router-view flex">
+        <div class="page flex">
             <router-view />
             <FooterComponent />
         </div>
@@ -20,42 +20,32 @@
             FooterComponent,
         },
     })
-    export default class App extends Vue {
-
-    }
+    export default class App extends Vue {}
 </script>
 
 <style lang="scss">
     @import './style/variables';
 
     @import './style/body';
-    @import './style/container';
-    @import './style/layout';
     @import './style/button';
-    @import './style/input';
+    @import './style/container';
+    @import './style/heading';
     @import './style/icon';
-    @import './style/links';
+    @import './style/input';
+    @import './style/layout';
+    @import './style/link';
 
-    #app {
-        grid-template-columns: var(--nav-width) 1fr;
-
-        @media only screen and (max-width: 50rem) {
-            flex-direction: column;
-        }
-    }
-
-    .router-view {
-        flex: 1;
-        flex-direction: column;
-        overflow-y: auto;
+    .page {
+        height: calc(100% - 127px);
         padding: var(--spacing-small);
+        flex-direction: column;
 
-        & > :first-child {
+        & > * {
             flex: 1;
         }
 
-        @media only screen and (max-width: 50rem) {
-            overflow-y: initial;
+        .footer-component {
+            flex: 0 0 auto;
         }
     }
 </style>

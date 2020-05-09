@@ -1,16 +1,25 @@
 :root {
     --white: #fefefe;
-    --black: #222;
-    --light-grey: #efefef;
 
-    --theme-1: #01e7ff;
-    --theme-2: #426ffd;
-    --theme-3: #3939a4;
-    --theme-4: #241172;
+    --grey: #ccc;
+    --grey-light: #efefef;
+    --grey-dark: #aaa;
 
-    --border-radius: 0.5rem;
+    --black: #1a1a22;
+    --black-light: #1c1c1f;
+    --black-lightest: #2f2f38;
+    --black-dark: #121218;
 
-    --nav-width: 25%;
+    --primary: #3939a4;
+    --primary-light: #426ffd;
+    --primary-dark: #241172;
+
+    --secondary: #ffb400;
+    --tertiary: #01e7ff;
+
+    --error: #f22;
+
+    --border-radius: 0.3rem;
 
     --spacing-xsmall: 0.5rem;
     --spacing-small: 1rem;

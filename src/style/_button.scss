@@ -4,16 +4,14 @@ button {
     font: inherit;
     font-weight: bold;
     letter-spacing: inherit;
-    background-color: var(--theme-3);
+    background-color: var(--primary);
     color: var(--white);
-    border: 0;
+    border: 1px solid var(--secondary);
     border-radius: var(--border-radius);
-    box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
     cursor: pointer;
     transition: background-color var(--duration);
 
     &:hover {
-        background-color: var(--theme-4);
-        box-shadow: 0 0 8px rgba(34, 34, 34, 0.9) inset;
+        background-color: var(--primary-dark);
     }
 }

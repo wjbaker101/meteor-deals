@@ -1,5 +1,5 @@
 <template>
-    <div class="header-component container-theme-4 flex">
+    <div class="header-component container-dark flex">
         <div>
             <h1>
                 <router-link to="/">
@@ -8,45 +8,13 @@
                 </router-link>
             </h1>
         </div>
-        <div class="container-theme-3">
-            <h2>Search</h2>
-            <input
-                type="text"
-                placeholder="Try a food or game"
-                v-model="searchText">
-        </div>
-        <div class="container-theme-3">
-            <h2>Category</h2>
-            <input
-                type="text"
-                placeholder="Try 'Freebie' or 'Shopmium'"
-                @keyup.enter="onCategoryInputEnter"
-                v-model="category">
-            <div class="header-categories">
-                <HeaderCategoryComponent
-                    :key="`category-${category.name}`"
-                    v-for="(category, index) in categories"
-                    :category="category"
-                    :frequency="getCategoryFrequency(category.name)"
-                    :index="index" />
-            </div>
-        </div>
         <div class="filler"></div>
-        <div class="user-container">
-            <div v-if="user !== null">
-                <router-link to="/user">
-                    <UserIcon />{{ user.emailAddress }}
-                </router-link>
-            </div>
-            <div v-else>
-                <router-link to="/login">
-                    <button class="login-button">Log In</button>
-                </router-link>
-                <p></p>
-                <div class="text-centered">
-                    <router-link to="/user/create">Create User</router-link>
-                </div>
-            </div>
+        <div class="user-section">
+            <router-link :to="userURL">
+                <UserIcon />
+                <span v-if="user">User</span>
+                <span v-else>Login</span>
+            </router-link>
         </div>
     </div>
 </template>
@@ -74,121 +42,70 @@
     })
     export default class HeaderComponent extends Vue {
 
-        private category: string = '';
-
-        private emailAddress: string = '';
-        private password: string = '';
-
-        private doShowLogIn: boolean = false;
-
         get user(): User | null {
             return this.$store.state.user;
         }
 
-        get categories(): Category[] {
-            return this.$store.state.categories;
-        }
-
-        get searchText(): string {
-            return this.$store.state.searchText;
-        }
-
-        set searchText(searchText: string) {
-            this.$store.dispatch('setSearchText', searchText);
-        }
-
-        get categoryFrequencies(): Record<string, number> {
-            const deals: Deal[] = this.$store.state.deals;
-
-            const frequencies: Record<string, number> = {};
-
-            deals.forEach(deal => {
-                deal.categories.forEach(c => {
-                    const category = c.toLowerCase();
-
-                    if (category in frequencies) {
-                        frequencies[category]++;
-                    }
-                    else {
-                        frequencies[category] = 1;
-                    }
-                });
-            });
-
-            return frequencies;
-        }
-
-        onCategoryInputEnter(e: KeyboardEvent): void {
-            if (this.category.length < 3) {
-                return;
-            }
-
-            if (this.categories.find(c => (
-                c.name.toLowerCase() === this.category.toLowerCase()
-            ))) {
-                return;
-            }
-
-            this.$store.dispatch('addCategory', {
-                name: this.category,
-                isEnabled: true,
-            });
-
-            this.category = '';
-        }
-
-        onLoginClicked(e: MouseEvent): void {
-            if (!this.doShowLogIn) {
-                this.doShowLogIn = true;
-            }
-        }
-
-        getCategoryFrequency(category: string): number {
-            return this.categoryFrequencies[category.toLowerCase()] || 0;
+        get userURL(): string {
+            return this.user ? '/user' : '/login';
         }
     }
 </script>
 
 <style lang="scss">
     .header-component {
-        flex: 0 0 var(--nav-width);
-        flex-direction: column;
+        align-items: center;
 
-        &.container-theme-4 {
+        &.container-dark {
+            border: 0;
+            border-top-right-radius: 0;
             border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-
-            @media only screen and (max-width: 50rem) {
-                border-top-right-radius: 0;
-                border-bottom-left-radius: var(--border-radius);
-            }
+            border-bottom: 1px solid var(--black-lightest);
         }
 
         & > * {
             flex: 0 0 auto;
-            margin-top: 1rem;
         }
 
         .filler {
             flex: 1;
         }
 
-        h1 a {
+        a {
             text-decoration: none;
             color: inherit;
 
             .svg-logo {
-                margin-right: 0.5rem;
+                margin-right: var(--spacing-xsmall);
+            }
+        }
+
+        .user-section {
+            .icon-user {
+                margin-right: var(--spacing-xsmall);
+            }
+
+            span {
+                vertical-align: baseline;
+            }
+
+            a {
+                transition: color var(--duration);
+
+                &:hover {
+                    color: var(--secondary);
+                }
             }
         }
 
         .header-categories {
-            padding-top: 1rem;
+            padding-top: var(--spacing-small);
         }
+
 
         .category {
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: var(--spacing-xsmall);
 
             .category-remove {
                 font-size: 1.5rem;
@@ -200,7 +117,7 @@
 
         .user-container {
             .login-button {
-                margin-top: 1rem;
+                margin-top: var(--spacing-small);
             }
 
             a {

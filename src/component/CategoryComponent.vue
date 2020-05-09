@@ -24,9 +24,8 @@
         padding: 0.25rem 0.5rem;
         margin: 0 0.25rem;
         font-size: 0.7em;
-        background-color: var(--theme-1);
+        background-color: var(--tertiary);
         color: var(--black);
         border-radius: var(--border-radius);
-        box-shadow: 0 0 8px rgba(34, 34, 34, 0.3) inset;
     }
 </style>

@@ -10,8 +10,8 @@ body {
     font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6em;
     letter-spacing: 1px;
-    background-color: var(--theme-3);
-    color: var(--white);
+    background-color: var(--black);
+    color: var(--grey);
 }
 
 *,
@@ -19,20 +19,4 @@ body {
 *::after {
     box-sizing: border-box;
     vertical-align: middle;
-}
-
-h1 {
-    font-size: 2rem;
-}
-
-h2 {
-    font-size: 1.5rem;
-}
-
-h3 {
-    font-size: 1.2rem;
-}
-
-h4 {
-    font-size: 1.1rem;
 }

@@ -7,11 +7,10 @@ input[type=time] {
     padding: 0.5rem 1rem;
     font: inherit;
     letter-spacing: inherit;
-    background-color: var(--white);
-    color: var(--black);
-    border: 0;
+    background-color: var(--black-dark);
+    color: var(--grey-light);
+    border: 1px solid var(--tertiary);
     border-radius: var(--border-radius);
-    box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
     transition: background-color var(--duration);
 }
 
@@ -25,6 +24,5 @@ textarea {
     color: var(--black);
     border: 0;
     border-radius: var(--border-radius);
-    box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
     transition: background-color var(--duration);
 }

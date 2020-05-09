@@ -16,13 +16,12 @@
     import { Component, Prop, Vue } from 'vue-property-decorator';
 
     @Component
-    export default class FooterComponent extends Vue {
-    }
+    export default class FooterComponent extends Vue {}
 </script>
 
 <style lang="scss">
     .footer-component {
         flex: 0 0 auto;
-        color: var(--black);
+        color: var(--grey-dark);
     }
 </style>

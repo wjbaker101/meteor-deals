@@ -1,11 +1,13 @@
 <template>
-    <button class="button-component" @click="onClick">
+    <button
+        class="button-component"
+        @click="onClick"
+        :class="{ 'is-secondary': isSecondary }"
+    >
         <div class="loading-icon" v-if="isLoading">
             <LoadingIcon />
         </div>
-        <div v-else>
-            <slot />
-        </div>
+        <slot v-else />
     </button>
 </template>
 
@@ -26,6 +28,11 @@
         })
         private isLoading!: boolean;
 
+        @Prop({
+            default: false,
+        })
+        private isSecondary!: boolean;
+
         onClick(e: MouseEvent): void {
             this.$emit('click', e);
         }
@@ -35,27 +42,34 @@
 <style lang="scss">
     .button-component {
         width: 100%;
-        padding: 0.5rem 1rem;
+        padding: var(--spacing-xsmall) var(--spacing-small);
         font: inherit;
         font-weight: bold;
         letter-spacing: inherit;
-        background-color: var(--theme-3);
+        background-color: var(--primary);
         color: var(--white);
-        border: 0;
+        border: 1px solid var(--secondary);
         border-radius: var(--border-radius);
-        box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
         cursor: pointer;
         transition: background-color var(--duration);
 
         &:hover {
-            background-color: var(--theme-4);
-            box-shadow: 0 0 8px rgba(34, 34, 34, 0.9) inset;
+            background-color: var(--primary-dark);
+        }
+
+        &.is-secondary {
+            background-color: var(--black);
+            border-color: var(--tertiary);
+
+            &:hover {
+                background-color: var(--black-dark);
+            }
         }
 
         .loading-icon {
             height: 1em;
             display: inline-block;
-            padding: 0 0.5rem;
+            padding: 0 var(--spacing-xsmall);
             background-color: rgba(0, 0, 0, 0.2);
             border-radius: var(--border-radius);
 
@@ -63,6 +77,10 @@
                 position: relative;
                 top: -12px;
             }
+        }
+
+        & > .svg-icon {
+            margin-right: var(--spacing-xsmall);
         }
     }
 </style>

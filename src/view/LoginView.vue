@@ -2,26 +2,27 @@
     <div class="login-view flex">
         <div class="login-container container-theme-2">
             <h1>Login</h1>
-            <label>
-                <span>Email Address</span>
+            <p>
+                <label for="input-email-address">Email Address</label>
                 <input
+                    id="input-email-address"
                     ref="emailAddressInput"
                     type="text"
                     placeholder="todd@example.com"
                     v-model="emailAddress"
                     @keyup.enter="onEmailAddressEnter"
                 >
-            </label>
-            <p></p>
-            <label>
-                <span>Password</span>
+            </p>
+            <p>
+                <label for="input-password">Password</label>
                 <input
+                    id="input-password"
                     ref="passwordInput"
                     type="password"
                     v-model="password"
                     @keyup.enter="onPasswordEnter"
                 >
-            </label>
+            </p>
             <p>
                 <ButtonComponent @click="onLoginClicked" :isLoading="isLoading">
                     Log In

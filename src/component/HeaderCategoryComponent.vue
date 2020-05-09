@@ -55,7 +55,7 @@
 <style lang="scss">
     .header-category-component {
         align-items: center;
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--spacing-xsmall);
 
         .remove {
             font-size: 1.5rem;

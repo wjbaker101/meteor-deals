@@ -78,7 +78,7 @@
             position: absolute;
             top: 0;
             right: 0;
-            padding: 1rem;
+            padding: var(--spacing-small);
         }
     }
 </style>

@@ -1,10 +1,10 @@
 <template>
     <div
         v-if="deal"
-        class="deal-component container-theme-2 flex"
+        class="deal-component container-light flex"
         :class="{ 'is-expired': isExpired }"
     >
-        <div class="admin-container container-theme-2 flex" v-if="isAdminUser">
+        <div class="admin-container container flex" v-if="isAdminUser">
             <div class="filler"></div>
             <BinIcon class="delete" @click="onDelete" />
         </div>
@@ -147,9 +147,11 @@
 
 <style lang="scss">
     .deal-component {
+        padding: 2rem;
         flex: 1 0 21%;
         white-space: normal;
         flex-direction: column;
+        background-color: var(--black-light);
 
         &.is-expired {
             opacity: 0.4;
@@ -186,6 +188,9 @@
         }
 
         .admin-container {
+            margin-top: calc(var(--spacing-small) * -1);
+            margin-right: calc(var(--spacing-small) * -1);
+            margin-left: calc(var(--spacing-small) * -1);
             padding: var(--spacing-xsmall) var(--spacing-small);
 
             .filler {

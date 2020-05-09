@@ -29,13 +29,13 @@
 
         .icon {
             display: inline-block;
-            padding: 0.5rem;
+            padding: var(--spacing-xsmall);
             background-color: rgba(0, 0, 0, 0.2);
             border-radius: var(--border-radius);
         }
 
         .message {
-            margin-left: 1rem;
+            margin-left: var(--spacing-small);
             font-weight: bold;
         }
     }
