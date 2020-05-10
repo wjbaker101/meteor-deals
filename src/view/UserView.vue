@@ -3,6 +3,14 @@
         <div class="user-container container-theme-2">
             <h1>User Settings</h1>
             <p>Change your settings here! Changes are saved automatically.</p>
+            <div>
+                <h2>Deal Settings</h2>
+                <p>
+                    <router-link to="/deal/create">
+                        <button>Create New Deal</button>
+                    </router-link>
+                </p>
+            </div>
             <div v-if="!notifierUserSettings">
                 <LoadingComponent message="Loading Notification Settings" />
             </div>

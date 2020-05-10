@@ -5,6 +5,9 @@
         :class="{ 'is-expired': isExpired }"
     >
         <div class="admin-container container flex" v-if="isAdminUser">
+            <div>
+                <small>{{ deal.id }}</small>
+            </div>
             <div class="filler"></div>
             <BinIcon class="delete" @click="onDelete" />
         </div>
@@ -192,6 +195,7 @@
             margin-right: calc(var(--spacing-small) * -1);
             margin-left: calc(var(--spacing-small) * -1);
             padding: var(--spacing-xsmall) var(--spacing-small);
+            align-items: center;
 
             .filler {
                 flex: 1;
