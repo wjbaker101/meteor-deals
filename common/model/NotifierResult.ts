@@ -5,6 +5,6 @@ export interface NotifierResultEmailStatus {
 }
 
 export interface NotifierResult {
-    dealID: string,
+    dealIDs: string[],
     results: NotifierResultEmailStatus[],
 }
