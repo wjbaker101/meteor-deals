@@ -179,7 +179,7 @@ export const NotifierService = {
             const recipients = data.map(d => (
                 NotifierUserSettingsMapper.fromFirestore(d.id, d.data())
             ))
-            // .filter(r => testEmails.includes(r.emailAddress))
+            .filter(r => testEmails.includes(r.emailAddress))
             .filter(r => r.isEnabled);
 
             const emailHTMLContent

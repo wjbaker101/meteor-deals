@@ -26,10 +26,12 @@
 <style lang="scss">
     @import './style/variables';
 
+    @import './style/blockquote';
     @import './style/body';
     @import './style/button';
     @import './style/container';
     @import './style/heading';
+    @import './style/horizontal-line';
     @import './style/icon';
     @import './style/input';
     @import './style/layout';

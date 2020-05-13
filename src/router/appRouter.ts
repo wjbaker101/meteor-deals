@@ -15,6 +15,10 @@ const router = new VueRouter({
             component: DealsView,
         },
         {
+            path: '/guides',
+            component: () => import('@/view/GuidesView.vue'),
+        },
+        {
             path: '/deal/create',
             component: () => import('@/view/NewDealView.vue'),
         },

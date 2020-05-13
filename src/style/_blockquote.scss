@@ -1,0 +1,32 @@
+blockquote {
+    margin: var(--spacing-small);
+    padding: var(--spacing-small);
+    background-color: var(--black-light);
+    border: 1px solid var(--black-dark);
+    border-left-color: var(--secondary);
+    border-radius: var(--border-radius);
+    font-style: italic;
+
+    @media screen and (max-width: 50rem) {
+        margin: var(--spacing-small) 0;
+    }
+
+    :first-child {
+        margin-top: 0;
+    }
+
+    :last-child {
+        margin-bottom: 0;
+    }
+
+    header {
+        color: var(--secondary);
+        font-weight: bold;
+        line-height: 1.5em;
+        font-style: normal;
+
+        .svg-icon {
+            margin-right: var(--spacing-xsmall);
+        }
+    }
+}

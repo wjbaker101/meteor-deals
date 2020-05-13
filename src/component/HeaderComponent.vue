@@ -9,7 +9,11 @@
             </h1>
         </div>
         <div class="filler"></div>
-        <div class="user-section">
+        <div class="links">
+            <router-link to="/guides">
+                <BookIcon />
+                <span>Guides</span>
+            </router-link>
             <router-link :to="userURL">
                 <UserIcon />
                 <span v-if="user">User</span>
@@ -31,12 +35,14 @@
     import HeaderCategoryComponent from '@/component/HeaderCategoryComponent.vue';
 
     import Logo from '@/assets/logo.svg';
+    import BookIcon from '@/assets/icon/book.svg';
     import UserIcon from '@/assets/icon/user.svg';
 
     @Component({
         components: {
             HeaderCategoryComponent,
             Logo,
+            BookIcon,
             UserIcon,
         },
     })
@@ -55,6 +61,16 @@
 <style lang="scss">
     .header-component {
         align-items: center;
+
+        @media screen and (max-width: 50rem) {
+            flex-direction: column;
+
+            .links {
+                width: 100%;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
 
         &.container-dark {
             border: 0;
@@ -94,6 +110,24 @@
 
                 &:hover {
                     color: var(--secondary);
+                }
+            }
+        }
+
+        .links {
+            a {
+                transition: color var(--duration);
+
+                &:hover {
+                    color: var(--secondary);
+                }
+
+                & + a {
+                    margin-left: var(--spacing-mid);
+                }
+
+                .svg-icon {
+                    margin-right: var(--spacing-xsmall);
                 }
             }
         }
