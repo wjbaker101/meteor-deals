@@ -5,6 +5,7 @@ import { FirebaseClient } from '../client/FirebaseClient';
 import { NotifierUserSettingsMapper } from '../mapper/NotifierUserSettingsMapper';
 import { LogUtils } from '../util/LogUtils';
 import { ResourceUtils } from '../util/ResourceUtils';
+import { Env } from '../util/Env';
 import { alphabetical } from '../../common/util/SortUtils';
 
 import { Deal } from '../../common/model/Deal';
@@ -23,7 +24,7 @@ const notifications: {
     // Timeout that waits a set amount of time before sending the notification
     timeout: null,
 
-    delay: 1000 * 60 * 5,
+    delay: Env.value<number>(1000 * 60 * 5, 1000 * 30),
 };
 
 const dealContainsCategory = (deal: Deal, categories: string[]) => {
@@ -179,7 +180,9 @@ export const NotifierService = {
             const recipients = data.map(d => (
                 NotifierUserSettingsMapper.fromFirestore(d.id, d.data())
             ))
-            // .filter(r => testEmails.includes(r.emailAddress))
+            .filter(r => (
+                Env.value<boolean>(true, testEmails.includes(r.emailAddress))
+            ))
             .filter(r => r.isEnabled);
 
             const emailHTMLContent
