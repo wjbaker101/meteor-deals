@@ -108,11 +108,6 @@
     })
     export default class GuidesView extends Vue {
 
-        private readonly shopmiumCategory: Category = {
-            name: 'Shopmium',
-            isEnabled: false,
-        };
-
         private readonly url: Object = {
             shopmium: {
                 offers: 'https://offers.shopmium.com/uk/',
