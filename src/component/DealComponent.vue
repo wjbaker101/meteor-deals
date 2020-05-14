@@ -26,12 +26,20 @@
         </div>
         <div class="actions-container flex">
             <div class="url">
-                <a :href="deal.url" rel="nofollow noreferrer noopener" target="_blank">
+                <a
+                    :href="deal.url"
+                    rel="nofollow noreferrer noopener"
+                    target="_blank"
+                >
                     <button>Go to Deal</button>
                 </a>
             </div>
-            <div class="favourite" :class="{ 'is-favourite': isFavourite }" v-if="user !== null">
-                <button @click="onFavourite">
+            <div
+                class="favourite"
+                :class="{ 'is-favourite': isFavourite }"
+                v-if="user !== null"
+            >
+                <button @click="onFavourite" title="Save Deal as a Favourite">
                     <HeartIcon />
                 </button>
             </div>
