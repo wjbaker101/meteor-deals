@@ -10,6 +10,7 @@ module.exports = {
                 target: `http://localhost:${config.backend.port}`,
             },
         },
+        disableHostCheck: true,
     },
 
     chainWebpack: (config) => {
@@ -21,4 +22,12 @@ module.exports = {
             .use('vue-svg-loader')
             .loader('vue-svg-loader');
     },
+
+    pwa: {
+        name: 'Meteor Deals',
+        themeColor: '#121218',
+        msTileColor: '#121218',
+        appleMobileWebAppCapable: 'yes',
+        appleMobileWebAppStatusBarStyle: 'black',
+    }
 }

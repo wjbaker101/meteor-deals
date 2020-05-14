@@ -11,6 +11,10 @@ const router = new VueRouter({
 
     routes: [
         {
+            path: '/index.html',
+            component: DealsView,
+        },
+        {
             path: '/',
             component: DealsView,
         },
