@@ -196,8 +196,6 @@
         }
 
         async loadNotifierSettings() {
-            console.log(this.notifierUserSettings)
-
             if (this.notifierUserSettings === undefined) {
                 const result = await API.getNotifier();
 
@@ -239,6 +237,8 @@
                 this.errorMessage = 'Sorry, something went wrong when logging out.';
                 return;
             }
+
+            this.$store.dispatch('setNotifierUserSettings', undefined);
 
             this.errorMessage = '';
 
