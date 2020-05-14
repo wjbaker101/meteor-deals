@@ -160,8 +160,7 @@
             opacity: 0.4;
 
             button:hover {
-                background-color: var(--theme-3);
-                box-shadow: 0 0 8px rgba(34, 34, 34, 0.5) inset;
+                background-color: var(--primary);
             }
         }
 
