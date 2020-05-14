@@ -23,7 +23,7 @@ const notifications: {
     // Timeout that waits a set amount of time before sending the notification
     timeout: null,
 
-    delay: 1000 * 60 * 10,
+    delay: 1000 * 60 * 5,
 };
 
 const dealContainsCategory = (deal: Deal, categories: string[]) => {
