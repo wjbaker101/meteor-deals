@@ -238,11 +238,10 @@
                 return;
             }
 
-            this.$store.dispatch('setNotifierUserSettings', undefined);
-
             this.errorMessage = '';
 
             this.$store.dispatch('setUser', null);
+            this.$store.dispatch('setNotifierUserSettings', undefined);
 
             this.$router.push({ path: '/login', });
         }

@@ -1,8 +1,18 @@
-import { ImmortalDB } from 'immortal-db';
+import {
+    ImmortalStorage,
+    IndexedDbStore,
+    LocalStorageStore
+}
+from 'immortal-db';
 
 import { CacheItem } from '@/model/CacheItem';
 
 const DEFAULT_TIMEOUT = 1000 * 60 * 5;
+
+const ImmortalDB = new ImmortalStorage([
+    IndexedDbStore,
+    LocalStorageStore,
+]);
 
 export const CacheService = {
 

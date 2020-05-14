@@ -18,10 +18,6 @@ const CACHE_DEALS = 'cache_deals';
 const CACHE_USER = 'cache_user';
 const CACHE_NOTIFIER_SETTINGS = 'cache_notifier_settings';
 
-const dealsCacheTimeout = process.env.NODE_ENV !== 'production'
-        ? 1000
-        : 1000 * 60 * 5;
-
 export const initAppStore = async (state: Store) => {
     const user = await CacheService.get<User>(CACHE_USER);
 
