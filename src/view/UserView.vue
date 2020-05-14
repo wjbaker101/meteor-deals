@@ -2,8 +2,13 @@
     <div class="user-view flex">
         <div class="user-container container-theme-2">
             <h1>User Settings</h1>
+            <p>
+                <em>{{ user.emailAddress }}</em>
+            </p>
+            <hr>
             <p>Change your settings here! Changes are saved automatically.</p>
-            <div>
+            <div v-if="user.isAdmin">
+                <hr>
                 <h2>Deal Settings</h2>
                 <p>
                     <router-link to="/deal/create">
@@ -11,6 +16,7 @@
                     </router-link>
                 </p>
             </div>
+            <hr>
             <div v-if="!notifierUserSettings">
                 <LoadingComponent message="Loading Notification Settings" />
             </div>
@@ -84,7 +90,7 @@
                 </div>
             </div>
             <div>
-                <h2>Log Out</h2>
+                <hr>
                 <button @click="onLogoutClicked">Log Out</button>
                 <p v-if="errorMessage">
                     {{ errorMessage }}
@@ -190,6 +196,8 @@
         }
 
         async loadNotifierSettings() {
+            console.log(this.notifierUserSettings)
+
             if (this.notifierUserSettings === undefined) {
                 const result = await API.getNotifier();
 
