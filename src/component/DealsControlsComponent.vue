@@ -6,7 +6,7 @@
             </ButtonComponent>
             <div v-if="enabledCategoriesLength > 0">
                 <small>
-                    <em>({{ enabledCategoriesLength }} categories enabled)</em>
+                    <em>({{ enabledCategoriesLengthText }} enabled)</em>
                 </small>
             </div>
         </div>
@@ -80,6 +80,14 @@
 
         get enabledCategoriesLength(): number {
             return this.categories.filter(c => c.isEnabled).length;
+        }
+
+        get enabledCategoriesLengthText(): string {
+            const text = this.enabledCategoriesLength === 1
+                    ? 'category'
+                    : 'categories';
+
+            return `${this.enabledCategoriesLength} ${text}`;
         }
 
         get categoryFrequencies(): Record<string, number> {
