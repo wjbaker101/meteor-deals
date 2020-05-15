@@ -31,12 +31,16 @@ const router = new VueRouter({
             component: () => import('@/view/LoginView.vue'),
         },
         {
-            path: '/user',
-            component: () => import('@/view/UserView.vue'),
+            path: '/user/admin',
+            component: () => import('@/view/UserAdminView.vue'),
         },
         {
             path: '/user/create',
             component: () => import('@/view/UserCreateView.vue'),
+        },
+        {
+            path: '/user',
+            component: () => import('@/view/UserView.vue'),
         },
     ],
 });

@@ -164,7 +164,7 @@
 
             next((vm: Vue) => {
                 if (vm.$store.state.user === null) {
-                    next('/login')
+                    next('/login');
                 }
                 else {
                     next();
