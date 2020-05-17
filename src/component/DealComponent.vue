@@ -2,7 +2,7 @@
     <div
         v-if="deal"
         class="deal-component container-light flex"
-        :class="{ 'is-expired': isExpired }"
+        :class="componentClass"
     >
         <div class="admin-container container flex" v-if="isAdminUser">
             <div>
@@ -120,6 +120,13 @@
             return `Ended: ${endDate}`;
         }
 
+        get componentClass(): Record<string, boolean> {
+            return {
+                'is-expired': this.isExpired,
+                'is-hot': this.deal.isHot,
+            }
+        }
+
         alphabetical(a: string, b: string): number {
             if (a > b) {
                 return 1;
@@ -170,6 +177,11 @@
             button:hover {
                 background-color: var(--primary);
             }
+        }
+
+        &.is-hot {
+            border-color: var(--secondary);
+            box-shadow: 0 1px 5px var(--secondary-glow);
         }
 
         & > * {

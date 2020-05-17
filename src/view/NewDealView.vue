@@ -66,6 +66,15 @@
                     <input type="text" v-model="url">
                 </label>
             </div>
+            <hr>
+            <h2>Deal Properties</h2>
+            <div>
+                <input id="input-is-hot" type="checkbox" v-model="isHot">
+                <label for="input-is-hot">
+                    Mark as <strong class="text-is-hot">Hot</strong> Deal
+                </label>
+            </div>
+            <hr>
             <div>Make sure all fields have been completed.</div>
             <div>
                 <ButtonComponent @click="onSubmit" :isLoading="isLoading">
@@ -105,6 +114,7 @@
 
         private title: string = '';
         private description: string = '';
+        private isHot: boolean = false;
         private categories: Category[] = [];
         private url: string = '';
 
@@ -175,6 +185,7 @@
                 description: this.description,
                 categories: this.categories.map(c => c.name),
                 url: this.url,
+                isHot: this.isHot,
             });
 
             this.isLoading = false;
@@ -244,6 +255,11 @@
             padding: 2rem 1rem;
             display: table;
             margin: auto;
+
+            .text-is-hot {
+                color: var(--secondary);
+                text-shadow: 0 1px 5px var(--secondary-glow);
+            }
 
             & > div + div {
                 margin-top: var(--spacing-mid);

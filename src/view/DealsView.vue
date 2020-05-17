@@ -96,6 +96,10 @@
             return this.$store.state.categories;
         }
 
+        get isFilterByHotEnabled(): boolean {
+            return this.$store.state.isFilterByHotEnabled;
+        }
+
         get deals(): Deal[] | null {
             return this.$store.state.deals;
         }
@@ -106,6 +110,7 @@
             }
 
             return this.deals
+                .filter(this.matchDealWithIsHot)
                 .filter(this.matchDealWithSearchText)
                 .filter(this.matchDealWithCategories);
         }
@@ -170,6 +175,12 @@
                     category.name.toLowerCase() === dealCategory.toLowerCase()
                 ))
             ));
+        }
+
+        matchDealWithIsHot(deal: Deal): boolean {
+            this.isFilterByHotEnabled;
+            return !this.isFilterByHotEnabled
+                    || (this.isFilterByHotEnabled && deal.isHot);
         }
 
         dealEndDateFilter(isFuture: boolean): (d: Deal) => boolean {

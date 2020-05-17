@@ -20,6 +20,12 @@
                     v-model="searchText"
                 >
             </div>
+            <div class="filter-options">
+                <span>Filter:</span>
+                <br>
+                <input id="input-is-hot" type="checkbox" v-model="isFilterByHotEnabled">
+                <label for="input-is-hot">Show only <strong>Hot</strong> Deals</label>
+            </div>
             <div class="categories-input">
                 <Label for="input-categories">Categories:</Label>
                 <input
@@ -76,6 +82,14 @@
 
         get categories(): Category[] {
             return this.$store.state.categories;
+        }
+
+        get isFilterByHotEnabled(): boolean {
+            return this.$store.state.isFilterByHotEnabled;
+        }
+
+        set isFilterByHotEnabled(isEnabled: boolean) {
+            this.$store.dispatch('setIsFilterByHotEnabled', isEnabled);
         }
 
         get enabledCategoriesLength(): number {
@@ -154,6 +168,14 @@
             text-align: right;
         }
 
+        .filter-options {
+            margin-right: var(--spacing-small);
+
+            @media screen and (max-width: 50rem) {
+                width: 100%;
+            }
+        }
+
         .search,
         .categories-input {
             width: 350px;
@@ -174,6 +196,11 @@
                     margin-top: var(--spacing-small);
                 }
             }
+        }
+
+        #input-is-hot + label strong {
+            color: var(--secondary);
+            text-shadow: 0 1px 5px var(--secondary-glow);
         }
     }
 </style>

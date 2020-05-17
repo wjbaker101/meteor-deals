@@ -153,6 +153,10 @@ export const NotifierService = {
     async notifyUsers(deal: Deal): Promise<void> {
         LogUtils.log('NotifierService.notifyUsers');
 
+        if (!deal.isHot) {
+            return;
+        }
+
         notifications.pool.push(deal);
 
         clearTimeout(notifications.timeout);
@@ -166,6 +170,8 @@ export const NotifierService = {
             notifications.timeout = null;
             notifications.pool = [];
         }, notifications.delay);
+
+        LogUtils.log('Added deal to notification pool');
     },
 
     async sendNotifications(): Promise<NotifierResult | Error> {
