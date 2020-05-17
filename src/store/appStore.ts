@@ -2,8 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import { CacheService } from '@/service/CacheService';
-import { API } from '@/api/API';
-import { DealConverter } from '@/util/DealConverter';
 
 import { Category } from '@common/model/Category';
 import { Deal } from '@common/model/Deal';
@@ -15,6 +13,7 @@ Vue.use(Vuex);
 
 const CACHE_CATEGORIES = 'cache_categories';
 const CACHE_DEALS = 'cache_deals';
+const CACHE_FILTER_BY_HOT_ENABLED = 'cache_filter_by_hot_enabled';
 const CACHE_USER = 'cache_user';
 const CACHE_NOTIFIER_SETTINGS = 'cache_notifier_settings';
 
@@ -32,6 +31,7 @@ export const appStore = new Vuex.Store({
         searchText: '',
         categories: Array<Category>(),
         deals: null,
+        isFilterByHotEnabled: false,
         user: null,
         notifierUserSettings: undefined,
     } as Store,
@@ -51,6 +51,13 @@ export const appStore = new Vuex.Store({
 
             if (notifierUserSettings !== null) {
                 state.notifierUserSettings = notifierUserSettings;
+            }
+
+            const isFilterByHotEnabled =
+                    await CacheService.get<boolean>(CACHE_FILTER_BY_HOT_ENABLED);
+
+            if (isFilterByHotEnabled !== null) {
+                state.isFilterByHotEnabled = isFilterByHotEnabled;
             }
 
             appStore.subscribe(async (mutation, state) => {
@@ -78,6 +85,13 @@ export const appStore = new Vuex.Store({
                         await CacheService.set(
                                 CACHE_NOTIFIER_SETTINGS,
                                 state.notifierUserSettings);
+                        break;
+                    }
+
+                    case 'setIsFilterByHotEnabled': {
+                        await CacheService.set(
+                                CACHE_FILTER_BY_HOT_ENABLED,
+                                state.isFilterByHotEnabled);
                         break;
                     }
                 }
@@ -115,6 +129,10 @@ export const appStore = new Vuex.Store({
         setNotifierUserSettings(state, settings: NotifierUserSettings): void {
             state.notifierUserSettings = settings;
         },
+
+        setIsFilterByHotEnabled(state, isEnabled: boolean): void {
+            state.isFilterByHotEnabled = isEnabled;
+        },
     },
 
     actions: {
@@ -144,6 +162,10 @@ export const appStore = new Vuex.Store({
 
         setNotifierUserSettings(store, settings: NotifierUserSettings): void {
             store.commit('setNotifierUserSettings', settings);
+        },
+
+        setIsFilterByHotEnabled(store, isEnabled: boolean): void {
+            store.commit('setIsFilterByHotEnabled', isEnabled);
         },
     },
 });

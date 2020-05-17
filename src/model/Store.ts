@@ -7,6 +7,7 @@ export interface Store {
     searchText: string,
     categories: Category[],
     deals: Deal[] | null,
+    isFilterByHotEnabled: boolean,
     user: User | null,
     notifierUserSettings: NotifierUserSettings | null | undefined,
 }

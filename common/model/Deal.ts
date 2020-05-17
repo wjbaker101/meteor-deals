@@ -6,4 +6,5 @@ export interface Deal {
     endDate: Date,
     description: string,
     url: string,
+    isHot: boolean,
 }
