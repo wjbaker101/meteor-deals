@@ -3,6 +3,7 @@ import secretConfig from '../../common/config/secret-config.json';
 import { EmailClient } from '../client/EmailClient';
 import { FirebaseClient } from '../client/FirebaseClient';
 import { NotifierUserSettingsMapper } from '../mapper/NotifierUserSettingsMapper';
+import { CacheService } from '../service/CacheService';
 import { LogUtils } from '../util/LogUtils';
 import { ResourceUtils } from '../util/ResourceUtils';
 import { Env } from '../util/Env';
@@ -224,10 +225,15 @@ export const NotifierService = {
 
             const results = await Promise.all(notifier);
 
-            return {
+            const output = {
+                timestamp: Date.now(),
                 dealIDs: notifications.pool.map(d => d.id),
                 results,
-            }
+            };
+
+            CacheService.set('latest_notification', output);
+
+            return output;
         }
         catch (exception) {
             return new Error(exception);

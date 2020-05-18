@@ -7,6 +7,7 @@ import config from '../common/config/config.json';
 
 import { LogUtils } from './util/LogUtils';
 
+import { AdminRouter } from './router/AdminRouter';
 import { DealRouter } from './router/DealRouter';
 import { UserRouter } from './router/UserRouter';
 import { LogRouter } from './router/LogRouter';
@@ -16,6 +17,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(LogRouter);
+app.use('/api/admin', AdminRouter);
 app.use('/api', DealRouter);
 app.use('/api', UserRouter);
 

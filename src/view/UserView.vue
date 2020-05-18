@@ -1,9 +1,14 @@
 <template>
     <div class="user-view flex">
-        <div class="user-container container-theme-2">
+        <div class="user-container container-theme-2" v-if="user">
             <h1>User Settings</h1>
             <p>
                 <em>{{ user.emailAddress }}</em>
+            </p>
+            <p v-if="user.isAdmin">
+                Go to
+                <router-link to="/user/admin">Admin</router-link>
+                page.
             </p>
             <hr>
             <p>Change your settings here! Changes are saved automatically.</p>

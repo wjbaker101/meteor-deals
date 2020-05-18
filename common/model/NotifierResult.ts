@@ -5,6 +5,7 @@ export interface NotifierResultEmailStatus {
 }
 
 export interface NotifierResult {
+    timestamp: number,
     dealIDs: string[],
     results: NotifierResultEmailStatus[],
 }

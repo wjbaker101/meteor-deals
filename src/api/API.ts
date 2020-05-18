@@ -5,6 +5,7 @@ import { DealConverter } from '@/util/DealConverter';
 
 import { Deal } from '@common/model/Deal';
 import { NotifierUserSettings } from '@common/model/NotifierUserSettings';
+import { NotifierResult } from '@common/model/NotifierResult';
 import { User } from '@common/model/User';
 
 const api = axios.create({
@@ -209,6 +210,28 @@ export const API = {
             }
 
             const result = await api.delete<void>('/user/notifier',
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                        },
+                    });
+
+            return result.data;
+        }
+        catch (exception) {
+            return new Error(exception);
+        }
+    },
+
+    async getLatestNotification(): Promise<NotifierResult | Error> {
+        try {
+            const userToken = await FirebaseClient.getUserToken();
+
+            if (userToken === null) {
+                return new Error('User is not logged in.');
+            }
+
+            const result = await api.get<NotifierResult>('/admin/latestNotification',
                     {
                         headers: {
                             'Authorization': `Bearer ${userToken}`,
